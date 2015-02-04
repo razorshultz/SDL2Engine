@@ -1,0 +1,27 @@
+﻿Build started 2/4/2015 10:32:37 PM.
+     1>Project "C:\Users\Razor Shultz\documents\visual studio 2010\Projects\CountClass\CountClass\CountClass.vcxproj" on node 2 (build target(s)).
+     1>InitializeBuildStatus:
+         Creating "Debug\CountClass.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt FunctionButtonDisplay.cpp
+         FunctionButtonDisplay.cpp
+     1>c:\users\razor shultz\documents\visual studio 2010\projects\countclass\countclass\functionbuttondisplay.cpp(10): warning C4150: deletion of pointer to incomplete type 'SDL_Texture'; no destructor called
+                 e:\university\sdl2-2.0.3\include\sdl_render.h(127) : see declaration of 'SDL_Texture'
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Razor Shultz\documents\visual studio 2010\Projects\CountClass\Debug\CountClass.exe" /NOLOGO SDL2.lib SDL2main.lib SDL2_image.lib SDL2_ttf.lib SDL2_mixer.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\CountClass.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\Razor Shultz\documents\visual studio 2010\Projects\CountClass\Debug\CountClass.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Razor Shultz\documents\visual studio 2010\Projects\CountClass\Debug\CountClass.lib" /MACHINE:X86 Debug\FunctionButtonDisplay.obj
+         Debug\FunctionButton.obj
+         Debug\main.obj
+         Debug\MenuButton.obj
+         LINK : C:\Users\Razor Shultz\documents\visual studio 2010\Projects\CountClass\Debug\CountClass.exe not found or not built by the last incremental link; performing full link
+     1>MSVCRTD.lib(cinitexe.obj) : warning LNK4098: defaultlib 'msvcrt.lib' conflicts with use of other libs; use /NODEFAULTLIB:library
+         CountClass.vcxproj -> C:\Users\Razor Shultz\documents\visual studio 2010\Projects\CountClass\Debug\CountClass.exe
+       Manifest:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"C:\Users\Razor Shultz\documents\visual studio 2010\Projects\CountClass\Debug\CountClass.exe;#1" /manifest Debug\CountClass.exe.intermediate.manifest
+       FinalizeBuildStatus:
+         Deleting file "Debug\CountClass.unsuccessfulbuild".
+         Touching "Debug\CountClass.lastbuildstate".
+     1>Done Building Project "C:\Users\Razor Shultz\documents\visual studio 2010\Projects\CountClass\CountClass\CountClass.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:00.78
