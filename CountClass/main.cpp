@@ -15,16 +15,18 @@ SDL_Window* gWindow = nullptr;
 //surface contained by the window
 SDL_Surface* gScreenSurface = nullptr;
 
+SDL_Renderer* gRenderer = nullptr;
 
 bool Init();
 
 int main(int argc, char* args[])
 {	
+
 	SDL_Event events;
 	bool quit = false;
 	
 
-		FunctionButton* thebutton = new FunctionButton(100,150);
+		FunctionButton* thebutton = new FunctionButton(100, 200);
 		FunctionButtonDisplay thedisplayedbutton;
 
 		thedisplayedbutton.SetPosition(thebutton);
@@ -36,17 +38,30 @@ int main(int argc, char* args[])
 		int hi = thepoint.y;
 		std::cout << theint << " " << thepoint.y << std::endl;
 
+  	
+
 
 //End testing the classes
-// X: 100
-//Y: 100
-
 	if (!Init())
 	{
 		std::cout << "Initialisation error";
 	}
 	else
+	{	thedisplayedbutton.SetSprite("pngimage.png", gRenderer);
+
+		SDL_Surface* thesurf = IMG_Load("pngimage.png"); //don't forget to initialise PNG loading extension!
+		if(thesurf != nullptr)
+			{
+				//std::cout << "surf is null! error! " << SDL_GetError();
+				std::cout << "surf is good!";
+			}
+
+	SDL_Texture* thetext = SDL_CreateTextureFromSurface(gRenderer, thesurf); //don't try to load an image before initialising the renderer! (We initialise it in the Init() function)
+	if (thetext == NULL)
 	{
+		std::cout << "thetext is null, error! " << SDL_GetError();
+		//std::cout << "thetext is good!";
+	}
 		//handle events til we quit
 		while(!quit)
 		{
@@ -54,6 +69,12 @@ int main(int argc, char* args[])
 			{
 				
 			}
+
+			thedisplayedbutton.Render(gRenderer, thetext);
+		//	SDL_RenderCopy(gRenderer, thetext, NULL, NULL);
+
+				
+			SDL_RenderPresent(gRenderer);
 		}
 		
 
@@ -79,6 +100,13 @@ bool Init()
 	}
 	else
 	{
+
+			//Set texture filtering to linear
+		if( !SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, "1" ) )
+		{
+			printf( "Warning: Linear texture filtering not enabled!" );
+		}
+
 		//create window
 		gWindow = SDL_CreateWindow("Counter Window", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
 
@@ -89,8 +117,19 @@ bool Init()
 		}
 		else
 		{
-			//Get window surface
-			gScreenSurface = SDL_GetWindowSurface(gWindow);
+		//Setup our renderer to render to our window
+		gRenderer = SDL_CreateRenderer(gWindow, -1, SDL_RENDERER_ACCELERATED);
+		if(gRenderer == nullptr)
+		{
+			std::cout << "failed to initialise renderer! " << SDL_GetError();
+		}
+
+				int imgFlags = IMG_INIT_PNG;
+				if( !( IMG_Init( imgFlags ) & imgFlags ) )
+				{
+					printf( "SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError() );
+					success = false;
+				}
 		}
 
 	}

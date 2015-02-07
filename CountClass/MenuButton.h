@@ -9,6 +9,8 @@ class MenuButton
 		~MenuButton();
 		void SetPosition(int x, int y);
 		SDL_Point GetPosition();
+		int GetHeight();
+		int GetWidth();
 
 		virtual void HandleEvent(SDL_Event* events) =0;
 

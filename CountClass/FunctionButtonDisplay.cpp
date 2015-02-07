@@ -2,9 +2,23 @@
 
 FunctionButtonDisplay::FunctionButtonDisplay() : buttonTexture(nullptr)
 {
-	FunctionButtonDisplayPosition.x = 100;
-	FunctionButtonDisplayPosition.y = 200;
+	buttonFrame.x = 100;
+	buttonFrame.y = 200;
+	buttonFrame.h = 50;
+	buttonFrame.w = 50;
+	buttonTexture = nullptr;
+	
 }
+
+FunctionButtonDisplay::FunctionButtonDisplay(FunctionButton functionbutton) 
+{
+	buttonFrame.x = functionbutton.GetPosition().x;
+	buttonFrame.y =functionbutton.GetPosition().y;
+	buttonTexture = nullptr;
+	buttonFrame.h = functionbutton.
+
+}
+
 
 FunctionButtonDisplay::~FunctionButtonDisplay()
 {	delete buttonTexture;
@@ -13,19 +27,24 @@ FunctionButtonDisplay::~FunctionButtonDisplay()
 
 void FunctionButtonDisplay::SetPosition(MenuButton* menubutton)
 {
-	FunctionButtonDisplayPosition = menubutton->GetPosition();
+	buttonFrame.x = menubutton->GetPosition().x;
+	buttonFrame.y = menubutton->GetPosition().y;
 	
 }
 
 SDL_Point FunctionButtonDisplay::GetPosition()
-{
-	return FunctionButtonDisplayPosition;
+{	SDL_Point pos;
+	
+	pos.x = buttonFrame.x;
+	pos.y = buttonFrame.y;
+
+	return pos;
 }
 
 void FunctionButtonDisplay::SetSprite(std::string path, SDL_Renderer* Renderer)
 {
 	//The final texture
-	SDL_Texture* newTexture = NULL;
+	SDL_Texture* newTexture = nullptr;
 
 	//Load image at specified path into surface, we need to do this in order to eventually create a texture
 	SDL_Surface* loadedSurface = IMG_Load( path.c_str() );
@@ -36,7 +55,7 @@ void FunctionButtonDisplay::SetSprite(std::string path, SDL_Renderer* Renderer)
 	else
 	{
 		//Create texture from surface pixels! This is how we actually get our texture
-        newTexture = SDL_CreateTextureFromSurface( Renderer, loadedSurface );
+        newTexture = SDL_CreateTextureFromSurface(Renderer, loadedSurface );
 		if( newTexture == NULL )
 		{
 			printf( "Unable to create texture from %s! SDL Error: %s\n", path.c_str(), SDL_GetError() );
@@ -47,4 +66,9 @@ void FunctionButtonDisplay::SetSprite(std::string path, SDL_Renderer* Renderer)
 	}
 	//set our texture to be the texture we just created
 	buttonTexture = newTexture;
+}
+
+void FunctionButtonDisplay::Render(SDL_Renderer* renderer, SDL_Texture* thetext)
+{
+	SDL_RenderCopy(renderer, thetext, NULL, &buttonFrame);
 }

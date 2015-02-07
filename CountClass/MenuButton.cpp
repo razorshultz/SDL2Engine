@@ -21,3 +21,8 @@ SDL_Point MenuButton::GetPosition()
 	return mPosition;
 }
 
+int MenuButton::GetHeight()
+{
+	return buttonFrame
+}
+
