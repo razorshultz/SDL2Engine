@@ -20,11 +20,11 @@ SDL_Renderer* gRenderer = nullptr;
 bool Init();
 
 int main(int argc, char* args[])
-{	
+{	int count =0;
 
 	SDL_Event events;
 	bool quit = false;
-	
+	bool increased = false;
 
 		FunctionButton* thebutton = new FunctionButton(300, 200);
 		FunctionButtonDisplay thedisplayedbutton;
@@ -68,9 +68,29 @@ int main(int argc, char* args[])
 			while(SDL_PollEvent(&events) != 0)
 			{
 				
+
 			}
 
 			
+		
+		thebutton->HandleEvent(&events);
+
+				if(thebutton->GetButtonPressed() == true && increased == false)
+					{
+						count++;
+						increased = true;
+						std::cout << count << " ";
+					}
+
+					if(thebutton->GetButtonReleased() == true)
+					{
+						
+						increased = false;
+						
+					}
+		
+
+
 			//SDL_RenderCopy(gRenderer, thetext, NULL, NULL);
 			thedisplayedbutton.Render(gRenderer, thetext); //IT WORKS
 				

@@ -25,13 +25,23 @@ FunctionButton::~FunctionButton()
 {
 }
 
+bool FunctionButton::GetButtonPressed()
+{
+	return ButtonPressed;
+}
+
+bool FunctionButton::GetButtonReleased()
+{
+	return ButtonReleased;
+}
+
  
  void FunctionButton::HandleEvent(SDL_Event* events)
  {
-	if(events->type == SDL_MOUSEMOTION || events->type == SDL_MOUSEBUTTONDOWN || events->type == SDL_MOUSEBUTTONUP)
+	if(events->type == SDL_MOUSEBUTTONDOWN || events->type == SDL_MOUSEBUTTONUP) //original:  SDL_MOUSEMOTION || events->type == SDL_MOUSEBUTTONDOWN || events->type == SDL_MOUSEBUTTONUP)
 	{	//get mouse position
 		int x, y;
-		SDL_GetMouseState(&y, &y);
+		SDL_GetMouseState(&x, &y);
 
 		//check if mouse is inside button
 		bool inside = true;
@@ -67,7 +77,7 @@ FunctionButton::~FunctionButton()
 			else if (events->type == SDL_MOUSEBUTTONUP)
 			{
 				ButtonPressed = false;
-				ButtonPressed = true;
+				ButtonReleased = true;
 			}
 
 		}

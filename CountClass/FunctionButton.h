@@ -12,6 +12,8 @@ class FunctionButton : public MenuButton
 		FunctionButton();
 		FunctionButton(int x, int y);
 		~FunctionButton();
+		bool GetButtonPressed();
+		bool GetButtonReleased();
 
 		virtual void HandleEvent(SDL_Event* events);
 
