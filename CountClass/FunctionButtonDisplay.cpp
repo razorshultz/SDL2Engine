@@ -4,19 +4,19 @@ FunctionButtonDisplay::FunctionButtonDisplay() : buttonTexture(nullptr)
 {
 	buttonFrame.x = 100;
 	buttonFrame.y = 200;
-	buttonFrame.h = 50;
-	buttonFrame.w = 50;
+	buttonFrame.h = 100;
+	buttonFrame.w = 100;
 	buttonTexture = nullptr;
 	
 }
 
-FunctionButtonDisplay::FunctionButtonDisplay(FunctionButton functionbutton) 
+FunctionButtonDisplay::FunctionButtonDisplay(FunctionButton* functionbutton) 
 {
-	buttonFrame.x = functionbutton.GetPosition().x;
-	buttonFrame.y =functionbutton.GetPosition().y;
+	buttonFrame.x = functionbutton->GetPosition().x;
+	buttonFrame.y =functionbutton->GetPosition().y;
 	buttonTexture = nullptr;
-	buttonFrame.h = functionbutton.GetHeight();
-	buttonFrame.w = functionbutton.GetWidth();
+	buttonFrame.h = functionbutton->GetHeight();
+	buttonFrame.w = functionbutton->GetWidth();
 
 }
 
@@ -33,7 +33,7 @@ void FunctionButtonDisplay::SetPosition(MenuButton* menubutton)
 	
 }
 
-SDL_Point FunctionButtonDisplay::GetPosition()
+SDL_Point FunctionButtonDisplay::GetPosition() const
 {	SDL_Point pos;
 	
 	pos.x = buttonFrame.x;
@@ -69,7 +69,7 @@ void FunctionButtonDisplay::SetSprite(std::string path, SDL_Renderer* Renderer)
 	buttonTexture = newTexture;
 }
 
-void FunctionButtonDisplay::Render(SDL_Renderer* renderer, SDL_Texture* thetext)
+void FunctionButtonDisplay::Render(SDL_Renderer* renderer)
 {
-	SDL_RenderCopy(renderer, thetext, NULL, &buttonFrame);
+	SDL_RenderCopy(renderer, buttonTexture, NULL, &buttonFrame);
 }

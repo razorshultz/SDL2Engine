@@ -26,12 +26,9 @@ int main(int argc, char* args[])
 	bool quit = false;
 	bool increased = false;
 
-		FunctionButton* thebutton = new FunctionButton(300, 200);
-		FunctionButtonDisplay thedisplayedbutton;
+		FunctionButton* thebutton = new FunctionButton(100, 100);
+		FunctionButtonDisplay thedisplayedbutton(thebutton);
 
-		thedisplayedbutton.SetPosition(thebutton);
-
-		
 		SDL_Point thepoint = thedisplayedbutton.GetPosition();
 
 		int theint = thepoint.x;
@@ -92,7 +89,7 @@ int main(int argc, char* args[])
 
 
 			//SDL_RenderCopy(gRenderer, thetext, NULL, NULL);
-			thedisplayedbutton.Render(gRenderer, thetext); //IT WORKS
+			thedisplayedbutton.Render(gRenderer); //IT WORKS
 				
 			SDL_RenderPresent(gRenderer);
 		}

@@ -13,8 +13,8 @@ FunctionButton::FunctionButton()//initialising inherited protected member variab
 }
 
 FunctionButton::FunctionButton(int x, int y)
-{	buttonFrame.h = 100;
-	buttonFrame.w = 100;
+{	buttonFrame.h = 500;
+	buttonFrame.w = 500;
 	buttonFrame.x = x;
 	buttonFrame.y = y;
 	ButtonPressed = false;
@@ -25,12 +25,12 @@ FunctionButton::~FunctionButton()
 {
 }
 
-bool FunctionButton::GetButtonPressed()
+bool FunctionButton::GetButtonPressed() const
 {
 	return ButtonPressed;
 }
 
-bool FunctionButton::GetButtonReleased()
+bool FunctionButton::GetButtonReleased() const
 {
 	return ButtonReleased;
 }

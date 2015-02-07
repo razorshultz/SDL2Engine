@@ -10,13 +10,13 @@ class FunctionButtonDisplay
 {
 	public:
 		FunctionButtonDisplay();
-		FunctionButtonDisplay(FunctionButton functionbutton);
+		FunctionButtonDisplay(FunctionButton* functionbutton);
 		~FunctionButtonDisplay();
 
 		void SetPosition(MenuButton* menubutton);
 		void SetSprite(std::string path, SDL_Renderer* renderer);
-		SDL_Point GetPosition();
-		void Render(SDL_Renderer* renderer, SDL_Texture* thetext);
+		SDL_Point GetPosition() const;
+		void Render(SDL_Renderer* renderer);
 
 		
 

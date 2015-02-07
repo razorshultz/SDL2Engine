@@ -18,7 +18,7 @@ void MenuButton::SetPosition(int Newx, int Newy)
 	buttonFrame.y = Newy;
 }
 
-SDL_Point MenuButton::GetPosition()
+SDL_Point MenuButton::GetPosition() const
 {
 	SDL_Point pos;
 	pos.x = buttonFrame.x;
@@ -27,12 +27,12 @@ SDL_Point MenuButton::GetPosition()
 	return pos;
 }
 
-int MenuButton::GetHeight()
+int MenuButton::GetHeight() const
 {
 	return buttonFrame.h;
 }
 
-int MenuButton::GetWidth()
+int MenuButton::GetWidth() const
 {
 	return buttonFrame.w;
 }
