@@ -1,9 +1,11 @@
 #include "MenuButton.h"
 
-MenuButton::MenuButton() : ButtonWidth(100), ButtonHeight(100)
+MenuButton::MenuButton() 
 {
-	mPosition.x = 100;
-	mPosition.y = 100;
+	buttonFrame.h = 100;
+	buttonFrame.w = 100;
+	buttonFrame.x = 50;
+	buttonFrame.y = 50;
 }
 
 MenuButton::~MenuButton()
@@ -12,17 +14,26 @@ MenuButton::~MenuButton()
 
 void MenuButton::SetPosition(int Newx, int Newy)
 {
-	mPosition.x = Newx;
-	mPosition.y = Newy;
+	buttonFrame.x = Newx;
+	buttonFrame.y = Newy;
 }
 
 SDL_Point MenuButton::GetPosition()
 {
-	return mPosition;
+	SDL_Point pos;
+	pos.x = buttonFrame.x;
+	pos.y = buttonFrame.y;
+
+	return pos;
 }
 
 int MenuButton::GetHeight()
 {
-	return buttonFrame
+	return buttonFrame.h;
+}
+
+int MenuButton::GetWidth()
+{
+	return buttonFrame.w;
 }
 

@@ -26,7 +26,7 @@ int main(int argc, char* args[])
 	bool quit = false;
 	
 
-		FunctionButton* thebutton = new FunctionButton(100, 200);
+		FunctionButton* thebutton = new FunctionButton(300, 200);
 		FunctionButtonDisplay thedisplayedbutton;
 
 		thedisplayedbutton.SetPosition(thebutton);
@@ -70,9 +70,9 @@ int main(int argc, char* args[])
 				
 			}
 
-			thedisplayedbutton.Render(gRenderer, thetext);
-		//	SDL_RenderCopy(gRenderer, thetext, NULL, NULL);
-
+			
+			//SDL_RenderCopy(gRenderer, thetext, NULL, NULL);
+			thedisplayedbutton.Render(gRenderer, thetext); //IT WORKS
 				
 			SDL_RenderPresent(gRenderer);
 		}

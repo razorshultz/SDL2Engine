@@ -15,9 +15,7 @@ class MenuButton
 		virtual void HandleEvent(SDL_Event* events) =0;
 
 	protected:
-		SDL_Point mPosition;
-		int ButtonWidth;
-		int ButtonHeight;
+		SDL_Rect buttonFrame;
 
 
 };

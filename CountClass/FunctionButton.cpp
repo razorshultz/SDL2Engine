@@ -2,18 +2,21 @@
 
 
 
-FunctionButton::FunctionButton() //initialising inherited protected member variables in a member initialiser list doesnt seem to work
+FunctionButton::FunctionButton()//initialising inherited protected member variables in a member initialiser list doesnt seem to work
 {
-	ButtonWidth = 100;
-	ButtonHeight = 100;
+	buttonFrame.h = 100;
+	buttonFrame.w = 100;
+	buttonFrame.x = 50;
+	buttonFrame.y = 50;
 	ButtonPressed = false;
 	ButtonReleased = true;
 }
 
 FunctionButton::FunctionButton(int x, int y)
-{
-	mPosition.x = x;
-	mPosition.y = y;
+{	buttonFrame.h = 100;
+	buttonFrame.w = 100;
+	buttonFrame.x = x;
+	buttonFrame.y = y;
 	ButtonPressed = false;
 	ButtonReleased = true;
 }
@@ -34,22 +37,22 @@ FunctionButton::~FunctionButton()
 		bool inside = true;
 
 		//mouse is left of the button
-		if (x < mPosition.x)
+		if (x < buttonFrame.x)
 		{
 			inside = false;
 		}
 		//mouse is right of the button
-		else if (x > mPosition.x + ButtonWidth)
+		else if (x > buttonFrame.x + buttonFrame.w)
 		{
 			inside = false;
 		}
 		//if mouse if above the button
-		else if (y < mPosition.y)
+		else if (y < buttonFrame.y)
 		{
 			inside = false;
 		}
 		//if mouse is below the button
-		else if (y > mPosition.y + ButtonHeight)
+		else if (y > buttonFrame.y + buttonFrame.h)
 		{
 			inside = false;
 		}

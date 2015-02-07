@@ -15,7 +15,8 @@ FunctionButtonDisplay::FunctionButtonDisplay(FunctionButton functionbutton)
 	buttonFrame.x = functionbutton.GetPosition().x;
 	buttonFrame.y =functionbutton.GetPosition().y;
 	buttonTexture = nullptr;
-	buttonFrame.h = functionbutton.
+	buttonFrame.h = functionbutton.GetHeight();
+	buttonFrame.w = functionbutton.GetWidth();
 
 }
 
