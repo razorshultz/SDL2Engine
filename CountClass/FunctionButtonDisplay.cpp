@@ -32,7 +32,7 @@ void FunctionButtonDisplay::SetPosition(MenuButton* menubutton)
 	buttonFrame.y = menubutton->GetPosition().y;
 	
 }
-//
+////
 SDL_Point FunctionButtonDisplay::GetPosition() const
 {	SDL_Point pos;
 	
