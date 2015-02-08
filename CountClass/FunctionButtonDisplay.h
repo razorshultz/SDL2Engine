@@ -10,7 +10,7 @@ class FunctionButtonDisplay
 {
 	public:
 		FunctionButtonDisplay();
-		FunctionButtonDisplay(FunctionButton* functionbutton);
+		FunctionButtonDisplay(const FunctionButton &functionbutton); 
 		~FunctionButtonDisplay();
 
 		void SetPosition(MenuButton* menubutton);

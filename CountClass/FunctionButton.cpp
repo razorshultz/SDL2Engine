@@ -13,8 +13,8 @@ FunctionButton::FunctionButton()//initialising inherited protected member variab
 }
 
 FunctionButton::FunctionButton(int x, int y)
-{	buttonFrame.h = 500;
-	buttonFrame.w = 500;
+{	buttonFrame.h = 100;
+	buttonFrame.w = 100;
 	buttonFrame.x = x;
 	buttonFrame.y = y;
 	ButtonPressed = false;

@@ -7,8 +7,8 @@
 #include "FunctionButtonDisplay.h"
 
 
-#define SCREEN_WIDTH 800
-#define SCREEN_HEIGHT 600
+#define SCREEN_WIDTH 1280
+#define SCREEN_HEIGHT 720
 //window to render to
 SDL_Window* gWindow = nullptr;
 
@@ -26,7 +26,8 @@ int main(int argc, char* args[])
 	bool quit = false;
 	bool increased = false;
 
-		FunctionButton* thebutton = new FunctionButton(100, 100);
+		
+		FunctionButton thebutton(100,100);
 		FunctionButtonDisplay thedisplayedbutton(thebutton);
 
 		SDL_Point thepoint = thedisplayedbutton.GetPosition();
@@ -70,16 +71,16 @@ int main(int argc, char* args[])
 
 			
 		
-		thebutton->HandleEvent(&events);
-
-				if(thebutton->GetButtonPressed() == true && increased == false)
+	
+	thebutton.HandleEvent(&events);
+				if(thebutton.GetButtonPressed() == true && increased == false)
 					{
 						count++;
 						increased = true;
 						std::cout << count << " ";
 					}
 
-					if(thebutton->GetButtonReleased() == true)
+					if(thebutton.GetButtonReleased() == true)
 					{
 						
 						increased = false;
@@ -88,7 +89,7 @@ int main(int argc, char* args[])
 		
 
 
-			//SDL_RenderCopy(gRenderer, thetext, NULL, NULL);
+			SDL_RenderCopy(gRenderer, thetext, NULL, NULL);
 			thedisplayedbutton.Render(gRenderer); //IT WORKS
 				
 			SDL_RenderPresent(gRenderer);
@@ -98,6 +99,7 @@ int main(int argc, char* args[])
 
 	}
 
+//	delete thebutton;
 	SDL_Quit();
 
 

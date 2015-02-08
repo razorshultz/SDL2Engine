@@ -10,19 +10,19 @@ FunctionButtonDisplay::FunctionButtonDisplay() : buttonTexture(nullptr)
 	
 }
 
-FunctionButtonDisplay::FunctionButtonDisplay(FunctionButton* functionbutton) 
+FunctionButtonDisplay::FunctionButtonDisplay(const FunctionButton &functionbutton) 
 {
-	buttonFrame.x = functionbutton->GetPosition().x;
-	buttonFrame.y =functionbutton->GetPosition().y;
+	buttonFrame.x = functionbutton.GetPosition().x;
+	buttonFrame.y =functionbutton.GetPosition().y;
 	buttonTexture = nullptr;
-	buttonFrame.h = functionbutton->GetHeight();
-	buttonFrame.w = functionbutton->GetWidth();
+	buttonFrame.h = functionbutton.GetHeight();
+	buttonFrame.w = functionbutton.GetWidth();
 
 }
 
 
 FunctionButtonDisplay::~FunctionButtonDisplay()
-{	delete buttonTexture;
+{	
 	buttonTexture = nullptr;
 }
 
