@@ -14,7 +14,7 @@ class FunctionButtonDisplay
 		~FunctionButtonDisplay();
 
 		void SetPosition(MenuButton* menubutton);
-		void SetSprite(std::string path, SDL_Renderer* renderer);
+		void SetSprite(std::string path,  SDL_Renderer* renderer);
 		SDL_Point GetPosition() const;
 		void Render(SDL_Renderer* renderer);
 

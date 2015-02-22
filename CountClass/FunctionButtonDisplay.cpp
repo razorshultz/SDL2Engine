@@ -42,7 +42,7 @@ SDL_Point FunctionButtonDisplay::GetPosition() const
 	return pos;
 }
 
-void FunctionButtonDisplay::SetSprite(std::string path, SDL_Renderer* Renderer)
+void FunctionButtonDisplay::SetSprite(std::string path,  SDL_Renderer* Renderer)
 {
 	//The final texture
 	SDL_Texture* newTexture = nullptr;

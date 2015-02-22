@@ -22,12 +22,12 @@ bool Init();
 int main(int argc, char* args[])
 {	int count =0;
 
-	SDL_Event events;
-	bool quit = false;
-	bool increased = false;
+		SDL_Event events;
+		bool quit = false;
+		bool increased = false;
 
 		
-		FunctionButton thebutton(100,100);
+	FunctionButton thebutton(100,100);
 		FunctionButtonDisplay thedisplayedbutton(thebutton);
 
 		SDL_Point thepoint = thedisplayedbutton.GetPosition();
@@ -47,14 +47,14 @@ int main(int argc, char* args[])
 	else
 	{	thedisplayedbutton.SetSprite("pngimage.png", gRenderer);
 
-		SDL_Surface* thesurf = IMG_Load("pngimage.png"); //don't forget to initialise PNG loading extension!
+		SDL_Surface* thesurf = IMG_Load("pngimage.png"); //don't forget to initialise PNG loading extension! here we're just loading a text image.
 		if(thesurf != nullptr)
 			{
 				//std::cout << "surf is null! error! " << SDL_GetError();
 				std::cout << "surf is good!";
 			}
 
-	SDL_Texture* thetext = SDL_CreateTextureFromSurface(gRenderer, thesurf); //don't try to load an image before initialising the renderer! (We initialise it in the Init() function)
+	SDL_Texture* thetext = SDL_CreateTextureFromSurface(gRenderer, thesurf); //don't try to load an image before initialising the renderer! (We initialise it in the Init() function). Here, we create a texture from our test image.
 	if (thetext == NULL)
 	{
 		std::cout << "thetext is null, error! " << SDL_GetError();
@@ -69,10 +69,7 @@ int main(int argc, char* args[])
 
 			}
 
-			
-		
-	
-	thebutton.HandleEvent(&events);
+				thebutton.HandleEvent(&events);
 				if(thebutton.GetButtonPressed() == true && increased == false)
 					{
 						count++;
@@ -89,8 +86,8 @@ int main(int argc, char* args[])
 		
 
 
-			SDL_RenderCopy(gRenderer, thetext, NULL, NULL);
-			thedisplayedbutton.Render(gRenderer); //IT WORKS
+			SDL_RenderCopy(gRenderer, thetext, NULL, NULL); //here, we render our test image.
+			thedisplayedbutton.Render(gRenderer); //IHere our button is displaying itself.
 				
 			SDL_RenderPresent(gRenderer);
 		}

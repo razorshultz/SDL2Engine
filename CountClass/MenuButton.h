@@ -6,7 +6,7 @@ class MenuButton
 {
 	public:
 		MenuButton();
-		~MenuButton();
+	virtual	~MenuButton();
 		void SetPosition(int x, int y);
 		SDL_Point GetPosition() const;
 		int GetHeight() const;
