@@ -3,7 +3,7 @@
 
 
 SDLWindow::SDLWindow()
-{
+{	
 	Init();
 }
 
