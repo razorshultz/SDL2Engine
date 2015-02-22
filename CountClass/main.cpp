@@ -25,7 +25,6 @@ int main(int argc, char* args[])
 		SDL_Event events;
 		bool quit = false;
 		bool increased = false;
-
 		
 		FunctionButton thebutton(100,100);
 		FunctionButtonDisplay thedisplayedbutton(thebutton);
@@ -39,7 +38,7 @@ int main(int argc, char* args[])
 
 //End testing the classes
 	
-	thedisplayedbutton.SetSprite("pngimage.png", mywindow.GetRenderer());
+		thedisplayedbutton.SetSprite("pngimage.png", mywindow.GetRenderer());
 
 		SDL_Surface* thesurf = IMG_Load("pngimage.png"); //don't forget to initialise PNG loading extension! here we're just loading a text image.
 		if(thesurf != nullptr)
