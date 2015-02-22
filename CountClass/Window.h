@@ -1,16 +1,16 @@
-#ifndef SDLWINDOW_H
-#define SDLWINDOW_H
+#ifndef Window_H
+#define Window_H
 
 #include <SDL.h>
 #include <SDL_image.h>
 #include <iostream>
 
-class SDLWindow
+class Window
 {
 
 	public:
-	SDLWindow();
-	~SDLWindow();
+	Window();
+	~Window();
 	
 	
 	SDL_Renderer* GetRenderer();

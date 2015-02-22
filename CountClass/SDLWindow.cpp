@@ -1,23 +1,23 @@
-#include "SDLWindow.h"
+#include "Window.h"
 
 
 
-SDLWindow::SDLWindow()
+Window::Window()
 {	
 	Init();
 }
 
-SDLWindow::~SDLWindow()
+Window::~Window()
 {
 	SDL_Quit();
 }
 
-SDL_Renderer* SDLWindow::GetRenderer()
+SDL_Renderer* Window::GetRenderer()
 {
 	return mRenderer;
 }
 
-bool SDLWindow::Init()
+bool Window::Init()
 {
 	bool success = true;
 
