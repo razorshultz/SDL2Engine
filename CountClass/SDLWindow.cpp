@@ -15,8 +15,8 @@ Window::~Window()
 SDL_Renderer* Window::GetRenderer()
 {
 	return mRenderer;
-}
-
+} 
+//comment
 bool Window::Init()
 {
 	bool success = true;
