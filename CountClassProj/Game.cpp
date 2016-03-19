@@ -16,7 +16,7 @@ const float& TimePerFrame = 1.0f / 60.0f;
 
 
 
-Game::Game() :  mWindow(), mPlayer("jm.jpg", mWindow.GetRenderer(), 0.0f, 0), mPlayer2("be.jpg", mWindow.GetRenderer(), 300.0f, 300.0f)
+Game::Game() :  mWindow(), mPlayer("jb.jpg", mWindow.GetRenderer(), 0.0f, 0), mPlayer2("be.jpg", mWindow.GetRenderer(), 300.0f, 300.0f)
 {
 	mQuit = false;
 

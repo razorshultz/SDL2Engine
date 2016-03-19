@@ -24,10 +24,14 @@ private:
 
 
 
-//class NoDefaultTexture : public std::runtime_error : std::runtime_error("No default texture available")
-//{
+/*class NoDefaultTexture : public std::runtime_error 
+{
+	public:
+		NoDefaultTexture() : std::runtime_error("texture was missing - tried loading default texture, but default.jpg is missing")
+		{};
+}
+*/
 
-//}
 
 
 #endif

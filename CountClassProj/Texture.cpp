@@ -9,32 +9,13 @@ Texture::Texture()
 Texture::Texture(std::string& filename, SDL_Renderer* renderer)
 {
 
-	SDL_Texture* tex_cache = TextureMap[filename];
+	SetTexture(filename, renderer);
 
-	if (tex_cache == nullptr)
-	{
-		SDL_Surface* loadedSurface = IMG_Load(filename.c_str());
+	//if (mTexture == nullptr)
+	//	SetTexture("default.jpg", renderer);
 
+	
 
-		if (loadedSurface == nullptr)
-		{
-			printf("Unable to load image %s! SDL_image Error: %s\n", filename.c_str(), IMG_GetError());
-		}
-		else
-		{	//convert to screen format
-			mTexture = SDL_CreateTextureFromSurface(renderer, loadedSurface);
-
-			if (mTexture == nullptr)
-				printf("Unable to create texture from %s! SDL Error: %s\n", filename.c_str(), SDL_GetError());
-		}
-
-		tex_cache = mTexture;
-	}
-	else
-	{
-		mTexture = TextureMap[filename];
-
-	}
 
 }
 
@@ -50,7 +31,12 @@ void Texture::SetTexture(std::string filename, SDL_Renderer* renderer)
 
 		if (loadedSurface == nullptr)
 		{
-			printf("Unable to load image %s! SDL_image Error: %s\n", filename.c_str(), IMG_GetError());
+			//if (filename == "default.jpg")
+				//throw NoDefaultTexture;
+
+
+			//printf("Unable to load image %s! SDL_image Error: %s\n", filename.c_str(), IMG_GetError());
+			SetTexture("default.jpg", renderer);
 		}
 		else
 		{	//convert to screen format
@@ -58,6 +44,8 @@ void Texture::SetTexture(std::string filename, SDL_Renderer* renderer)
 
 			if (mTexture == nullptr)
 				printf("Unable to create texture from %s! SDL Error: %s\n", filename.c_str(), SDL_GetError());
+				
+			
 		}
 
 		tex_cache = mTexture;

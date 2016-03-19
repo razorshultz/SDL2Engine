@@ -18,7 +18,7 @@ Entity::Entity(std::string texfilename, SDL_Renderer* renderer, float& x, float&
 	mRectFrame.y = y;
 
 //use SDL_QueryTexture to look at the entity's Texture file, and use its actual size to set the collision frame up! we declare 2 ints to store the info
-	int w, h;
+	int w =0, h = 0;
 	SDL_QueryTexture(mTexture.GetTexture(), nullptr, nullptr, &w, &h);
 	 
 	//use stored info from SDL_QueryTexture to set the collision frame
