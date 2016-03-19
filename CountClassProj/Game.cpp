@@ -16,7 +16,7 @@ const float& TimePerFrame = 1.0f / 60.0f;
 
 
 
-Game::Game() :  mWindow(), mPlayer("be.jpg", mWindow.GetRenderer(), 500.0f, 200.0f)
+Game::Game() :  mWindow(), mPlayer("jm.jpg", mWindow.GetRenderer(), 0.0f, 0), mPlayer2("be.jpg", mWindow.GetRenderer(), 300.0f, 300.0f)
 {
 	mQuit = false;
 
@@ -111,7 +111,7 @@ void Game::Render()
 {
 	
 	mPlayer.draw(mWindow.GetRenderer());
-
+	mPlayer2.draw(mWindow.GetRenderer());
 
 	SDL_RenderPresent(mWindow.GetRenderer());
 }

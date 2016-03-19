@@ -21,6 +21,7 @@ public:
 	bool GetClickReleased() const { return ClickReleased; };
 	bool GetClickable() const { return Clickable; };
 	bool Clickable = true;
+
 protected:
 
 	std::string mTexFilename;
@@ -33,7 +34,8 @@ private:
 
 	float mVelocityX;
 	float mVelocityY;
-	SDL_Rect mRectFrame;
+	//these should probably be protected, to detect clicks of derived classes 
+	SDL_Rect mRectFrame; 
 	bool ClickedOn;
 	bool ClickReleased;
 	

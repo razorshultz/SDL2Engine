@@ -1,4 +1,5 @@
 #include "Entity.h"
+#include <exception>
 
 
 
@@ -12,10 +13,20 @@ Entity::Entity(std::string texfilename, SDL_Renderer* renderer) : mTexFilename(t
 
 Entity::Entity(std::string texfilename, SDL_Renderer* renderer, float& x, float& y) : mTexFilename(texfilename), mTexture(texfilename, renderer), Clickable(false)
 {
-	mRectFrame.x = x;
+	
+	mRectFrame.x = x; 
 	mRectFrame.y = y;
-	mRectFrame.w = 300;
-	mRectFrame.h = 300;
+
+//use SDL_QueryTexture to look at the entity's Texture file, and use its actual size to set the collision frame up! we declare 2 ints to store the info
+	int w, h;
+	SDL_QueryTexture(mTexture.GetTexture(), nullptr, nullptr, &w, &h);
+	 
+	//use stored info from SDL_QueryTexture to set the collision frame
+	mRectFrame.w = w ;
+	mRectFrame.h = h ;
+
+	
+	
 
 }
 
@@ -37,7 +48,7 @@ void Entity::draw(SDL_Renderer* renderer) const //draw without render extrapolat
 
 }
 
-void Entity::HandleEvents(SDL_Event* events)
+void Entity::HandleEvents(SDL_Event* events) //can take code out of here to put it into a different ui class derived from entity, which can be clicked on.
 {
 	bool Clickable = false;
 
