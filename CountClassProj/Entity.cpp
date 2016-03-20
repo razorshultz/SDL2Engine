@@ -3,15 +3,14 @@
 
 
 
-Entity::Entity(std::string texfilename, SDL_Renderer* renderer) : mTexFilename(texfilename), mTexture(texfilename, renderer), Clickable(true)
+Entity::Entity(std::string texfilename, SDL_Renderer* renderer) : mTexFilename(texfilename), mTexture(texfilename, renderer), Clickable(true), mVelocityX(0), mVelocityY(0)  
 {
-
-	mRectFrame.x = 0;
 	mRectFrame.y = 0;
+	mRectFrame.x = 0;
 
 }
 
-Entity::Entity(std::string texfilename, SDL_Renderer* renderer, float& x, float& y) : mTexFilename(texfilename), mTexture(texfilename, renderer), Clickable(false)
+Entity::Entity(std::string texfilename, SDL_Renderer* renderer, float& x, float& y) : mTexFilename(texfilename), mTexture(texfilename, renderer), Clickable(false), mVelocityX(0), mVelocityY(0)
 {
 	
 	mRectFrame.x = x; 
@@ -40,7 +39,22 @@ Entity::~Entity()
 
 }
 
+void Entity::SetVelocityX(float x, float interval)
+{ 
+	mVelocityX += (x * interval); 
+};
 
+void Entity::SetVelocityY(float y, float interval) 
+{ 
+	mVelocityY += (y * interval); 
+};
+
+//use our velocities that we've received from the update cycle to set a final position which we use as the position to render our destination rectangle (mRectFrame) at
+void Entity::SetMove()
+{
+	mRectFrame.y = static_cast<int>(mVelocityY);
+	mRectFrame.x = static_cast<int>(mVelocityX);
+};
 
 void Entity::draw(SDL_Renderer* renderer) const //draw without render extrapolation
 {
