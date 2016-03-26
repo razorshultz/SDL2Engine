@@ -34,7 +34,7 @@ bool SDLWindow::Init()
 		}
 
 		//create window
-		mWindow = SDL_CreateWindow("Counter Window", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1280, 720, SDL_WINDOW_SHOWN);
+		mWindow = SDL_CreateWindow("Counter Window", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1980, 720, SDL_WINDOW_SHOWN);
 
 		if (mWindow == nullptr)
 		{

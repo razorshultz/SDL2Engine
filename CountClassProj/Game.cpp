@@ -8,8 +8,8 @@
 #define UPDATE_INTERVAL (1.0 / MAXIMUM_FRAME_RATE)
 #define MAX_CYCLES_PER_FRAME (MAXIMUM_FRAME_RATE / MINIMUM_FRAME_RATE)
 
-float speed = 1.0f;
-float minusspeed = -1.0f;
+float speed = 0.009f;
+float minusspeed = -0.009f;
 float zero = 0;
 
 const float& TimePerFrame = 1.0f / 60.0f;
@@ -136,14 +136,17 @@ void Game::Update()
 
 	if (!mPlayer.GetLeftPressed() && !mPlayer.GetRightPressed())
 	{
+		speed = 0;
 		
 	}
 
 
 	if (mPlayer.GetRightPressed())
 	{
+		if (speed < 0)
+			speed = 0;
 		
-		speed += 0.02f;
+		speed += 0.009f;
 		//in all our movement update code, we multiply the speed by the update_interval
 		mPlayer.SetVelocityX(speed,  UPDATE_INTERVAL);
 
@@ -152,24 +155,32 @@ void Game::Update()
 
 	if (mPlayer.GetLeftPressed())
 	{
+		if (speed > 0)
+			speed = 0;
 		
-		minusspeed -= 0.02f;
-		mPlayer.SetVelocityX(minusspeed,   UPDATE_INTERVAL);
+		speed -= 0.009f;
+		mPlayer.SetVelocityX(speed,   UPDATE_INTERVAL);
 
 	}
 
 
 	if (mPlayer.GetDownPressed())
 	{
-		speed += 0.02f;
+		if (minusspeed < 0)
+			minusspeed = 0;
 
-		mPlayer.SetVelocityY(speed,  UPDATE_INTERVAL);
+		minusspeed += 0.009f;
+
+		mPlayer.SetVelocityY(minusspeed,  UPDATE_INTERVAL);
 		
 	}
 
 	if (mPlayer.GetUpPressed())
 	{
-		minusspeed -= 0.02f;
+		if (minusspeed > 0)
+			minusspeed = 0;
+
+		minusspeed -= 0.009f;
 		mPlayer.SetVelocityY(minusspeed, UPDATE_INTERVAL);
 			
 	}

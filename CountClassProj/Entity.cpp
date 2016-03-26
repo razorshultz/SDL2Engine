@@ -47,14 +47,14 @@ void Entity::SetVelocityX(float& acceleration,  float interval) //set velocity w
 	 if ( acceleration > 0)
 	 {
 		
-		 if (acceleration >= 40)
-			 acceleration = 40;
+		 if (acceleration >= 80)
+			 acceleration = 80;
 	 }
 	 else
 	 {
 		 
-		 if (acceleration <= -40)
-			 acceleration = -20;
+		 if (acceleration <= -80)
+			 acceleration = -80;
 	 }
 	
 };
@@ -67,21 +67,21 @@ void Entity::SetVelocityY(float& acceleration, float interval)
 	if (acceleration > 0)
 	{
 		
-		if (acceleration >= 40)
-			acceleration = 40;
+		if (acceleration >= 80)
+			acceleration = 80;
 	}
 	else
 	{
 		
-		if (acceleration <= -40)
-			acceleration = -40;
+		if (acceleration <= -80)
+			acceleration = -80;
 	}
 };
 
 //use our velocities that we've received from the update cycle to set a final position which we use as the position to render our destination rectangle (mRectFrame) at
 void Entity::SetMove(float dt)
 {	//really important! Since SD_Rects and pixels can both only increment by whole integers, we cast our float values as integers, and update x and y position of our destination rectangle with those
-	mRectFrame.y = static_cast<int>(mVelocityY);
+	mRectFrame.y =  static_cast<int>(mVelocityY);
 	mRectFrame.x = static_cast<int>(mVelocityX);
 
 
