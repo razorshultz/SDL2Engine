@@ -18,17 +18,19 @@ public:
 	void draw(SDL_Renderer* renderer) const;
 
 	//set velocity of x, multiply it by our constant UPDATE_INTERVAL
-	void SetVelocityX(float x, float interval);
+	void SetVelocityX(float& acceleration, float interval);
 	
 	//set velocity and multiply it by our constant UPDATE_INTERVAL
-	void SetVelocityY(float y, float interval);
+	void SetVelocityY(float& acceleration,  float interval);
 
 
 	void HandleEvents(SDL_Event* event);
 	
 	//Used at the end of each update cycle so we know the final position of our entity, which should be used for rendering
-	void SetMove();
+	void SetMove(float dt);
 
+	//return acceleration
+	float GetAcceleration() const { return acceleration; };
 	
 
 	//these should probably be protected, to detect clicks of derived classes 
@@ -41,7 +43,8 @@ protected:
 
 	std::string mTexFilename;
 	Texture mTexture;
-	
+	float friction;
+	float acceleration;
 
 
 

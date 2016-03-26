@@ -3,14 +3,14 @@
 
 
 
-Entity::Entity(std::string texfilename, SDL_Renderer* renderer) : mTexFilename(texfilename), mTexture(texfilename, renderer), Clickable(true), mVelocityX(0), mVelocityY(0)  
+Entity::Entity(std::string texfilename, SDL_Renderer* renderer) : mTexFilename(texfilename), mTexture(texfilename, renderer), Clickable(true), mVelocityX(0), mVelocityY(0), acceleration(0.3f), friction(0.1f)
 {
 	mRectFrame.y = 0;
 	mRectFrame.x = 0;
 
 }
 
-Entity::Entity(std::string texfilename, SDL_Renderer* renderer, float& x, float& y) : mTexFilename(texfilename), mTexture(texfilename, renderer), Clickable(false), mVelocityX(0), mVelocityY(0)
+Entity::Entity(std::string texfilename, SDL_Renderer* renderer, float& x, float& y) : mTexFilename(texfilename), mTexture(texfilename, renderer), Clickable(false), mVelocityX(0), mVelocityY(0), acceleration(0.3f), friction(0.1f)
 {
 	
 	mRectFrame.x = x; 
@@ -39,21 +39,52 @@ Entity::~Entity()
 
 }
 
-void Entity::SetVelocityX(float x, float interval)
+void Entity::SetVelocityX(float& acceleration,  float interval) //set velocity with acceleration. pass in 1 for no change. // interval is deltatime
 { 
-	mVelocityX += (x * interval); 
+	mVelocityX += acceleration  *  interval; 
+	 
+
+	 if ( acceleration > 0)
+	 {
+		
+		 if (acceleration >= 40)
+			 acceleration = 40;
+	 }
+	 else
+	 {
+		 
+		 if (acceleration <= -40)
+			 acceleration = -20;
+	 }
+	
 };
 
-void Entity::SetVelocityY(float y, float interval) 
+void Entity::SetVelocityY(float& acceleration, float interval)
 { 
-	mVelocityY += (y * interval); 
+	mVelocityY += acceleration *  interval; 
+	
+	
+	if (acceleration > 0)
+	{
+		
+		if (acceleration >= 40)
+			acceleration = 40;
+	}
+	else
+	{
+		
+		if (acceleration <= -40)
+			acceleration = -40;
+	}
 };
 
 //use our velocities that we've received from the update cycle to set a final position which we use as the position to render our destination rectangle (mRectFrame) at
-void Entity::SetMove()
-{
+void Entity::SetMove(float dt)
+{	//really important! Since SD_Rects and pixels can both only increment by whole integers, we cast our float values as integers, and update x and y position of our destination rectangle with those
 	mRectFrame.y = static_cast<int>(mVelocityY);
 	mRectFrame.x = static_cast<int>(mVelocityX);
+
+
 };
 
 void Entity::draw(SDL_Renderer* renderer) const //draw without render extrapolation

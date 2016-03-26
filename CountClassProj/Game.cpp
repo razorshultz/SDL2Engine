@@ -8,7 +8,9 @@
 #define UPDATE_INTERVAL (1.0 / MAXIMUM_FRAME_RATE)
 #define MAX_CYCLES_PER_FRAME (MAXIMUM_FRAME_RATE / MINIMUM_FRAME_RATE)
 
-
+float speed = 1.0f;
+float minusspeed = -1.0f;
+float zero = 0;
 
 const float& TimePerFrame = 1.0f / 60.0f;
 
@@ -114,8 +116,7 @@ void Game::ProcessEvents()
 
 void Game::Update()
 {
-	float speed = 10.0f;
-
+	
 
 	mPlayer.HandleEvents(&mEvent);
 
@@ -133,51 +134,69 @@ void Game::Update()
 
 	}
 
+	if (!mPlayer.GetLeftPressed() && !mPlayer.GetRightPressed())
+	{
+		
+	}
 
 
 	if (mPlayer.GetRightPressed())
 	{
+		
+		speed += 0.02f;
 		//in all our movement update code, we multiply the speed by the update_interval
-		mPlayer.SetVelocityX(speed, UPDATE_INTERVAL);
+		mPlayer.SetVelocityX(speed,  UPDATE_INTERVAL);
 
 	}
 
 
 	if (mPlayer.GetLeftPressed())
 	{
-
-		mPlayer.SetVelocityX(-speed, UPDATE_INTERVAL);
+		
+		minusspeed -= 0.02f;
+		mPlayer.SetVelocityX(minusspeed,   UPDATE_INTERVAL);
 
 	}
 
 
-
-
 	if (mPlayer.GetDownPressed())
 	{
-		
-		mPlayer.SetVelocityY(speed, UPDATE_INTERVAL);
+		speed += 0.02f;
+
+		mPlayer.SetVelocityY(speed,  UPDATE_INTERVAL);
 		
 	}
 
 	if (mPlayer.GetUpPressed())
 	{
-		mPlayer.SetVelocityY(-speed, UPDATE_INTERVAL);
+		minusspeed -= 0.02f;
+		mPlayer.SetVelocityY(minusspeed, UPDATE_INTERVAL);
 			
 	}
 	
 	if (mPlayer.GetDownPressed() && mPlayer.GetUpPressed())
 	{
-		mPlayer.SetVelocityY(0.0f, UPDATE_INTERVAL);
+		zero = 0;
+		mPlayer.SetVelocityY(zero,  UPDATE_INTERVAL);
 	}
 
 	if (!mPlayer.GetDownPressed() && !mPlayer.GetUpPressed())
 	{
-		mPlayer.SetVelocityY(0.0f, UPDATE_INTERVAL);
+		zero = 0;
+		
+		mPlayer.SetVelocityY(zero, UPDATE_INTERVAL);
 	}
 
+	if (!mPlayer.GetDownPressed() && !mPlayer.GetUpPressed() && !mPlayer.GetLeftPressed() && !mPlayer.GetRightPressed())
+	{
+		speed = 0;
+		minusspeed = 0;
+		zero = 0;
+	}
+
+
 	//we use this function to set the final position which we'll render at 
-	mPlayer.SetMove();
+	mPlayer.SetMove(UPDATE_INTERVAL);
 }
 
 void Game::Render()

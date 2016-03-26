@@ -11,7 +11,7 @@ public:
 	Player(std::string texfilename, SDL_Renderer* renderer);
 	Player(std::string texfilename, SDL_Renderer* renderer, float x, float y);
 	~Player();
-	bool GetDownPressed() const { return downpressed; };
+	bool GetDownPressed() const {  return downpressed;  };
 	bool GetUpPressed() const  { return uppressed; };
 	void SetDownPressed(bool press) { downpressed = press; };
 	void SetUpPressed(bool press) { uppressed = press; };
@@ -19,6 +19,7 @@ public:
 	bool GetRightPressed() const { return rightpressed; };
 	void SetLeftPressed(bool press) { leftpressed = press; };
 	void SetRightPressed(bool press) { rightpressed = press; };
+	
 
 
 
@@ -31,6 +32,8 @@ private:
 	bool uppressed;
 	bool leftpressed;
 	bool rightpressed;
+	
+	
 
 
 
