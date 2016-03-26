@@ -137,29 +137,50 @@ void Game::Update()
 	if (!mPlayer.GetLeftPressed() && !mPlayer.GetRightPressed())
 	{
 		speed = 0;
-		
+		//set x accel to 0, dont forget
+		mPlayer.SetAccelerationX(0);
 	}
 
 
 	if (mPlayer.GetRightPressed())
 	{
-		if (speed < 0)
-			speed = 0;
-		
-		speed += 0.009f;
-		//in all our movement update code, we multiply the speed by the update_interval
-		mPlayer.SetVelocityX(speed,  UPDATE_INTERVAL);
+		//if (speed < 0)
+		//	speed = 0;
+
+	//	speed += 0.009f;
+
+	//	mPlayer.SetVelocityX(speed, UPDATE_INTERVAL);
+
+
+
+		if (mPlayer.mAccelerationX < 0)
+			mPlayer.mAccelerationX = 0;
+
+		mPlayer.OffsetAccelerationX(0.009f * UPDATE_INTERVAL);
+
+		//mPlayer.mAccelerationX += 0.009f;
+		mPlayer.SetVelocityX(mPlayer.mAccelerationX, UPDATE_INTERVAL);
 
 	}
 
 
 	if (mPlayer.GetLeftPressed())
-	{
-		if (speed > 0)
-			speed = 0;
+	{ //commented out way works, other doesnt
+	//	if (speed > 0)
+	//	speed = 0;
 		
-		speed -= 0.009f;
-		mPlayer.SetVelocityX(speed,   UPDATE_INTERVAL);
+	//	speed -= 0.009f;
+		//mPlayer.SetVelocityX(mPlayer.GetAccelerationX(), UPDATE_INTERVAL);
+	
+		
+		
+		if (mPlayer.mAccelerationX > 0)
+			mPlayer.mAccelerationX = 0;
+
+		mPlayer.OffsetAccelerationX(-0.009f * UPDATE_INTERVAL);
+
+	//	mPlayer.mAccelerationX -= 0.009f;
+		mPlayer.SetVelocityX(mPlayer.mAccelerationX,   UPDATE_INTERVAL);
 
 	}
 

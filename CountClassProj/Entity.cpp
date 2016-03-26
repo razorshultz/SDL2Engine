@@ -3,14 +3,14 @@
 
 
 
-Entity::Entity(std::string texfilename, SDL_Renderer* renderer) : mTexFilename(texfilename), mTexture(texfilename, renderer), Clickable(true), mVelocityX(0), mVelocityY(0), acceleration(0.3f), friction(0.1f)
+Entity::Entity(std::string texfilename, SDL_Renderer* renderer) : mTexFilename(texfilename), mTexture(texfilename, renderer), Clickable(true), mVelocityX(0), mVelocityY(0), mAccelerationX(0.0f), mAccelerationY(0.0f), friction(0.1f)
 {
 	mRectFrame.y = 0;
 	mRectFrame.x = 0;
 
 }
 
-Entity::Entity(std::string texfilename, SDL_Renderer* renderer, float& x, float& y) : mTexFilename(texfilename), mTexture(texfilename, renderer), Clickable(false), mVelocityX(0), mVelocityY(0), acceleration(0.3f), friction(0.1f)
+Entity::Entity(std::string texfilename, SDL_Renderer* renderer, float& x, float& y) : mTexFilename(texfilename), mTexture(texfilename, renderer), Clickable(false), mVelocityX(0), mVelocityY(0), mAccelerationX(0.0f), mAccelerationY(0.0f), friction(0.1f)
 {
 	
 	mRectFrame.x = x; 
@@ -39,12 +39,12 @@ Entity::~Entity()
 
 }
 
-void Entity::SetVelocityX(float& acceleration,  float interval) //set velocity with acceleration. pass in 1 for no change. // interval is deltatime
+void Entity::SetVelocityX(const float& acceleration,  float interval) //set velocity with acceleration. pass in 1 for no change. // interval is deltatime
 { 
 	mVelocityX += acceleration  *  interval; 
 	 
-
-	 if ( acceleration > 0)
+	//limit velocity
+	 /*if ( acceleration > 0)
 	 {
 		
 		 if (acceleration >= 80)
@@ -55,16 +55,40 @@ void Entity::SetVelocityX(float& acceleration,  float interval) //set velocity w
 		 
 		 if (acceleration <= -80)
 			 acceleration = -80;
-	 }
+	 }*/
 	
-};
+}
 
-void Entity::SetVelocityY(float& acceleration, float interval)
+void Entity::SetAccelerationX(float accel)
+{
+	mAccelerationX = accel;
+}
+
+void Entity::SetAccelerationY(float accel)
+{
+	mAccelerationY = accel;
+}
+
+void Entity::OffsetAccelerationX(float accel)
+{	
+	
+	//mAccelerationX = mAccelerationX + accel;
+	mAccelerationX += accel;
+}
+
+
+void Entity::OffsetAccelerationY(float accel)
+{
+
+	mAccelerationY = mAccelerationY + accel;
+}
+
+void Entity::SetVelocityY(const float& acceleration, float interval)
 { 
 	mVelocityY += acceleration *  interval; 
 	
 	
-	if (acceleration > 0)
+	/*if (acceleration > 0)
 	{
 		
 		if (acceleration >= 80)
@@ -75,7 +99,7 @@ void Entity::SetVelocityY(float& acceleration, float interval)
 		
 		if (acceleration <= -80)
 			acceleration = -80;
-	}
+	}*/
 };
 
 //use our velocities that we've received from the update cycle to set a final position which we use as the position to render our destination rectangle (mRectFrame) at

@@ -90,34 +90,7 @@ void IntCount::Decrement()
 	value--;
 }
 
-char* IntCount::asBase(int numberBase)
-{
-	char answer_string[80];
-	char partial_answer_string[80];
-	char remainder_string[10];
 
-	int quotient;
-	int remainder;
-
-	remainder = value % numberBase;
-	quotient = remainder % numberBase;
-
-	_itoa(remainder, remainder_string, numberBase);
-	strcpy(answer_string, remainder_string);
-
-	while(quotient != 0)
-	{
-		remainder = quotient % numberBase;
-		quotient = quotient % numberBase;
-		strcpy(partial_answer_string, remainder_string);
-		strcpy(partial_answer_string, answer_string);
-		strcpy(answer_string, partial_answer_string);
-
-	}
-
-	return answer_string;
-
-}
 
 
 
