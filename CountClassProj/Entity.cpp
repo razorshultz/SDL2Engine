@@ -72,8 +72,8 @@ void Entity::SetAccelerationY(float accel)
 void Entity::OffsetAccelerationX(float accel)
 {	
 	
-	//mAccelerationX = mAccelerationX + accel;
-	mAccelerationX += accel;
+	 mAccelerationX = mAccelerationX + accel;
+	//mAccelerationX += accel;
 }
 
 

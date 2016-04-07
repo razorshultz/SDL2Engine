@@ -3,7 +3,7 @@
 #include <SDL.h>
 #include <cmath>
 
-#define MAXIMUM_FRAME_RATE 60
+#define MAXIMUM_FRAME_RATE 120
 #define MINIMUM_FRAME_RATE 15
 #define UPDATE_INTERVAL (1.0 / MAXIMUM_FRAME_RATE)
 #define MAX_CYCLES_PER_FRAME (MAXIMUM_FRAME_RATE / MINIMUM_FRAME_RATE)
@@ -117,7 +117,6 @@ void Game::ProcessEvents()
 void Game::Update()
 {
 	
-
 	mPlayer.HandleEvents(&mEvent);
 
 	if (mPlayer.GetClickedOn() == true && mPlayer.GetClickable() == true)
@@ -129,103 +128,70 @@ void Game::Update()
 
 	if (mPlayer.GetClickReleased() == true)
 	{
-
 		mPlayer.SetClickable(true);
-
 	}
-
-	if (!mPlayer.GetLeftPressed() && !mPlayer.GetRightPressed())
-	{
-		speed = 0;
-		//set x accel to 0, dont forget
-		mPlayer.SetAccelerationX(0);
-	}
-
 
 	if (mPlayer.GetRightPressed())
-	{
-		//if (speed < 0)
-		//	speed = 0;
+	{	
+		//if the player is moving in the opposite direction (in which case its acceleration will be in the negative, set the acceleration to 0 so we can begin moving in the positive direction
+		//if (mPlayer.GetAccelerationX() < 0)
+		//	mPlayer.SetAccelerationX(0);
 
-	//	speed += 0.009f;
+		//after acceleration is stopped, we now need to start moving in the positive. We increment the acceleration, rather than replacing the value. (i.e, acceleration += acceleration * interval
+		mPlayer.OffsetAccelerationX(0.5f * UPDATE_INTERVAL);
 
-	//	mPlayer.SetVelocityX(speed, UPDATE_INTERVAL);
-
-
-
-		if (mPlayer.mAccelerationX < 0)
-			mPlayer.mAccelerationX = 0;
-
-		mPlayer.OffsetAccelerationX(0.009f * UPDATE_INTERVAL);
-
-		//mPlayer.mAccelerationX += 0.009f;
-		mPlayer.SetVelocityX(mPlayer.mAccelerationX, UPDATE_INTERVAL);
-
+		//then we set the velocity (change of position) using acceleration and multiplying it by the interval
+		mPlayer.SetVelocityX(mPlayer.GetAccelerationX(), UPDATE_INTERVAL);
 	}
-
 
 	if (mPlayer.GetLeftPressed())
-	{ //commented out way works, other doesnt
-	//	if (speed > 0)
-	//	speed = 0;
-		
-	//	speed -= 0.009f;
-		//mPlayer.SetVelocityX(mPlayer.GetAccelerationX(), UPDATE_INTERVAL);
-	
-		
-		
-		if (mPlayer.mAccelerationX > 0)
-			mPlayer.mAccelerationX = 0;
+	{ 	
+	//	if (mPlayer.GetAccelerationX() > 0)
+		//	mPlayer.SetAccelerationX(0);
 
-		mPlayer.OffsetAccelerationX(-0.009f * UPDATE_INTERVAL);
-
-	//	mPlayer.mAccelerationX -= 0.009f;
-		mPlayer.SetVelocityX(mPlayer.mAccelerationX,   UPDATE_INTERVAL);
+		mPlayer.OffsetAccelerationX(-0.5f * UPDATE_INTERVAL);
+		mPlayer.SetVelocityX(mPlayer.GetAccelerationX(),   UPDATE_INTERVAL);
 
 	}
-
 
 	if (mPlayer.GetDownPressed())
 	{
-		if (minusspeed < 0)
-			minusspeed = 0;
+		if (mPlayer.GetAccelerationY() < 0)
+			mPlayer.SetAccelerationY(0);
 
-		minusspeed += 0.009f;
-
-		mPlayer.SetVelocityY(minusspeed,  UPDATE_INTERVAL);
-		
+		mPlayer.OffsetAccelerationY(0.5f * UPDATE_INTERVAL);
+		mPlayer.SetVelocityY(mPlayer.GetAccelerationY(), UPDATE_INTERVAL);
 	}
 
 	if (mPlayer.GetUpPressed())
 	{
-		if (minusspeed > 0)
-			minusspeed = 0;
+		if (mPlayer.GetAccelerationY() > 0)
+			mPlayer.SetAccelerationY(0);
 
-		minusspeed -= 0.009f;
-		mPlayer.SetVelocityY(minusspeed, UPDATE_INTERVAL);
-			
+		mPlayer.OffsetAccelerationY(-0.5f * UPDATE_INTERVAL);
+		mPlayer.SetVelocityY(mPlayer.GetAccelerationY(), UPDATE_INTERVAL);	
 	}
 	
 	if (mPlayer.GetDownPressed() && mPlayer.GetUpPressed())
 	{
-		zero = 0;
-		mPlayer.SetVelocityY(zero,  UPDATE_INTERVAL);
+		mPlayer.SetVelocityY(0.0f,  UPDATE_INTERVAL);
 	}
 
 	if (!mPlayer.GetDownPressed() && !mPlayer.GetUpPressed())
 	{
-		zero = 0;
-		
-		mPlayer.SetVelocityY(zero, UPDATE_INTERVAL);
+		mPlayer.SetVelocityY(0.0f, UPDATE_INTERVAL);
+	}
+
+	if (!mPlayer.GetLeftPressed() && !mPlayer.GetRightPressed())
+	{
+
+		//mPlayer.SetAccelerationX(0);
 	}
 
 	if (!mPlayer.GetDownPressed() && !mPlayer.GetUpPressed() && !mPlayer.GetLeftPressed() && !mPlayer.GetRightPressed())
 	{
-		speed = 0;
-		minusspeed = 0;
-		zero = 0;
+	
 	}
-
 
 	//we use this function to set the final position which we'll render at 
 	mPlayer.SetMove(UPDATE_INTERVAL);
@@ -233,12 +199,8 @@ void Game::Update()
 
 void Game::Render()
 {
-	
 	SDL_RenderClear(mWindow.GetRenderer());
-
-	
 	mPlayer.draw(mWindow.GetRenderer());
 	mPlayer2.draw(mWindow.GetRenderer());
-
 	SDL_RenderPresent(mWindow.GetRenderer());
 }
