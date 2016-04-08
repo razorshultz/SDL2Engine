@@ -8,20 +8,14 @@
 #define UPDATE_INTERVAL (1.0 / MAXIMUM_FRAME_RATE)
 #define MAX_CYCLES_PER_FRAME (MAXIMUM_FRAME_RATE / MINIMUM_FRAME_RATE)
 
-float speed = 0.009f;
-float minusspeed = -0.009f;
-float zero = 0;
-
 const float& TimePerFrame = 1.0f / 60.0f;
-
-
-
-
 
 
 Game::Game() :  mWindow(), mPlayer("be.jpg", mWindow.GetRenderer(), 0.0f, 0), mPlayer2("be.jpg", mWindow.GetRenderer(), 300.0f, 300.0f)
 {
 	mQuit = false;
+	mPlayer.mPositionX = 0;
+	mPlayer.mPositionY = 0;
 
 }
 
@@ -109,8 +103,6 @@ void Game::ProcessEvents()
 				break;
 			}
 		}
-
-
 	}
 }
 
@@ -123,7 +115,6 @@ void Game::Update()
 	{
 		std::cout << "Pressed" << std::endl;
 		mPlayer.SetClickable(false);
-
 	}
 
 	if (mPlayer.GetClickReleased() == true)
@@ -133,67 +124,46 @@ void Game::Update()
 
 	if (mPlayer.GetRightPressed())
 	{	
-		//if the player is moving in the opposite direction (in which case its acceleration will be in the negative, set the acceleration to 0 so we can begin moving in the positive direction
-		//if (mPlayer.GetAccelerationX() < 0)
-		//	mPlayer.SetAccelerationX(0);
 
-		//after acceleration is stopped, we now need to start moving in the positive. We increment the acceleration, rather than replacing the value. (i.e, acceleration += acceleration * interval
-		mPlayer.OffsetAccelerationX(0.5f * UPDATE_INTERVAL);
-
-		//then we set the velocity (change of position) using acceleration and multiplying it by the interval
-		mPlayer.SetVelocityX(mPlayer.GetAccelerationX(), UPDATE_INTERVAL);
+		mPlayer.SetAccelerationX(20.5f, UPDATE_INTERVAL);
 	}
 
 	if (mPlayer.GetLeftPressed())
 	{ 	
-	//	if (mPlayer.GetAccelerationX() > 0)
-		//	mPlayer.SetAccelerationX(0);
-
-		mPlayer.OffsetAccelerationX(-0.5f * UPDATE_INTERVAL);
-		mPlayer.SetVelocityX(mPlayer.GetAccelerationX(),   UPDATE_INTERVAL);
-
+		mPlayer.SetAccelerationX(-20.5f, UPDATE_INTERVAL);
 	}
 
 	if (mPlayer.GetDownPressed())
 	{
-		if (mPlayer.GetAccelerationY() < 0)
-			mPlayer.SetAccelerationY(0);
-
-		mPlayer.OffsetAccelerationY(0.5f * UPDATE_INTERVAL);
-		mPlayer.SetVelocityY(mPlayer.GetAccelerationY(), UPDATE_INTERVAL);
+		mPlayer.OffsetAccelerationY(0.5f, UPDATE_INTERVAL);
 	}
 
 	if (mPlayer.GetUpPressed())
 	{
-		if (mPlayer.GetAccelerationY() > 0)
-			mPlayer.SetAccelerationY(0);
-
-		mPlayer.OffsetAccelerationY(-0.5f * UPDATE_INTERVAL);
-		mPlayer.SetVelocityY(mPlayer.GetAccelerationY(), UPDATE_INTERVAL);	
+		mPlayer.OffsetAccelerationY(-0.5f, UPDATE_INTERVAL);	
 	}
 	
 	if (mPlayer.GetDownPressed() && mPlayer.GetUpPressed())
 	{
-		mPlayer.SetVelocityY(0.0f,  UPDATE_INTERVAL);
+		//mPlayer.SetVelocityY(0.0f,  UPDATE_INTERVAL);
 	}
 
-	if (!mPlayer.GetDownPressed() && !mPlayer.GetUpPressed())
-	{
-		mPlayer.SetVelocityY(0.0f, UPDATE_INTERVAL);
-	}
+	/* If the player goes over the max velocity, take away 1 to keep him at the limit*/
+	if (mPlayer.GetVelocityX() > 10.5f)
+		mPlayer.OffsetVelocityX(-1.0f, UPDATE_INTERVAL);
 
-	if (!mPlayer.GetLeftPressed() && !mPlayer.GetRightPressed())
-	{
+	if (mPlayer.GetVelocityX() < -10.5f)
+		mPlayer.OffsetVelocityX(1.0f, UPDATE_INTERVAL);
 
-		//mPlayer.SetAccelerationX(0);
-	}
+	/* Increment player velocity by acceleration*/
+	mPlayer.OffsetVelocityX(mPlayer.GetAccelerationX(), UPDATE_INTERVAL);
+	mPlayer.OffsetVelocityY(mPlayer.GetAccelerationY(), UPDATE_INTERVAL);
 
-	if (!mPlayer.GetDownPressed() && !mPlayer.GetUpPressed() && !mPlayer.GetLeftPressed() && !mPlayer.GetRightPressed())
-	{
+	/* Increment position based on velocity */
+	mPlayer.mPositionX += mPlayer.GetVelocityX() * UPDATE_INTERVAL;
+	mPlayer.mPositionY += mPlayer.GetVelocityY() * UPDATE_INTERVAL;
 	
-	}
-
-	//we use this function to set the final position which we'll render at 
+	/* use position to render, finally! */
 	mPlayer.SetMove(UPDATE_INTERVAL);
 }
 

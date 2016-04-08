@@ -39,74 +39,62 @@ Entity::~Entity()
 
 }
 
-void Entity::SetVelocityX(const float& acceleration,  float interval) //set velocity with acceleration. pass in 1 for no change. // interval is deltatime
+void Entity::SetVelocityX(const float& acceleration,  const float& interval) //set velocity with acceleration. pass in 1 for no change. // interval is deltatime
 { 
-	mVelocityX += acceleration  *  interval; 
+	mVelocityX = acceleration  *  interval; 
 	 
-	//limit velocity
-	 /*if ( acceleration > 0)
-	 {
-		
-		 if (acceleration >= 80)
-			 acceleration = 80;
-	 }
-	 else
-	 {
-		 
-		 if (acceleration <= -80)
-			 acceleration = -80;
-	 }*/
 	
 }
 
-void Entity::SetAccelerationX(float accel)
+void Entity::SetVelocityY(const float& acceleration, const float& interval)
 {
-	mAccelerationX = accel;
+	mVelocityY = acceleration *  interval;
+
+};
+
+void Entity::OffsetVelocityX(float accel, const float& interval)
+{
+	mVelocityX += accel * interval;
 }
 
-void Entity::SetAccelerationY(float accel)
+void Entity::OffsetVelocityY(float accel, const float& interval)
 {
-	mAccelerationY = accel;
+	mVelocityY += accel * interval;
 }
 
-void Entity::OffsetAccelerationX(float accel)
+void Entity::SetAccelerationX(float accel, const float& interval)
+{
+	mAccelerationX = accel * interval;
+}
+
+void Entity::SetAccelerationY(float accel, const float& interval)
+{
+	mAccelerationY = accel* interval;
+}
+
+void Entity::OffsetAccelerationX(float accel, const float& interval)
 {	
 	
-	 mAccelerationX = mAccelerationX + accel;
-	//mAccelerationX += accel;
+	mAccelerationX += accel * interval;
 }
 
 
-void Entity::OffsetAccelerationY(float accel)
+void Entity::OffsetAccelerationY(float accel, const float& interval)
 {
 
-	mAccelerationY = mAccelerationY + accel;
+	mAccelerationY += accel *interval;
 }
 
-void Entity::SetVelocityY(const float& acceleration, float interval)
-{ 
-	mVelocityY += acceleration *  interval; 
-	
-	
-	/*if (acceleration > 0)
-	{
-		
-		if (acceleration >= 80)
-			acceleration = 80;
-	}
-	else
-	{
-		
-		if (acceleration <= -80)
-			acceleration = -80;
-	}*/
-};
+
 
 //use our velocities that we've received from the update cycle to set a final position which we use as the position to render our destination rectangle (mRectFrame) at
 void Entity::SetMove(float dt)
 {	//really important! Since SD_Rects and pixels can both only increment by whole integers, we cast our float values as integers, and update x and y position of our destination rectangle with those
-	mRectFrame.y =  static_cast<int>(mVelocityY);
-	mRectFrame.x = static_cast<int>(mVelocityX);
+	//mRectFrame.y =  static_cast<int>(mVelocityY);
+	//mRectFrame.x = static_cast<int>(mVelocityX);
+
+	mRectFrame.y =  static_cast<int>(mPositionY);
+	mRectFrame.x = static_cast<int>(mPositionX);
 
 
 };

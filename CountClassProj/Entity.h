@@ -14,14 +14,15 @@ public:
 	Entity(std::string texfilename, SDL_Renderer* renderer, float& x, float& y);
 	~Entity();
 
-
+	float mPositionX;
+	float mPositionY;
 	void draw(SDL_Renderer* renderer) const;
 
 	//set velocity of x, multiply it by our constant UPDATE_INTERVAL
-	 void SetVelocityX(const float& acceleration, float interval);
+	 void SetVelocityX(const float& acceleration, const float& interval);
 	
 	//set velocity and multiply it by our constant UPDATE_INTERVAL
-	 void SetVelocityY(const float& acceleration,  float interval);
+	 void SetVelocityY(const float& acceleration,  const float& interval);
 
 
 	void HandleEvents(SDL_Event* event);
@@ -29,7 +30,9 @@ public:
 	//Used at the end of each update cycle so we know the final position of our entity, which should be used for rendering
 	 void SetMove(float dt);
 
-	
+	 void OffsetVelocityX(float accel, const float& interval);
+
+	 void OffsetVelocityY(float accel, const float& interval);
 
 	//these should probably be protected, to detect clicks of derived classes 
 	inline bool GetClickedOn() const { return ClickedOn; };
@@ -38,11 +41,14 @@ public:
 	inline void SetClickable(bool boolean) { Clickable = boolean; }
 	inline float GetAccelerationX() const { return mAccelerationX; };
 	inline float GetAccelerationY() const { return mAccelerationY; };
-	 void SetAccelerationX(float accel);
-	 void SetAccelerationY(float accel);
-	 void OffsetAccelerationX(float accel);
-	 void OffsetAccelerationY(float accel);
+	inline float GetVelocityX() const { return mVelocityX; };
+	inline float GetVelocityY() const { return mVelocityY; };
+	 void SetAccelerationX(float accel, const float& interval);
+	 void SetAccelerationY(float accel, const float& interval);
+	 void OffsetAccelerationX(float accel, const float& interval);
+	 void OffsetAccelerationY(float accel, const float& interval);
 	
+	 
 
 
 
