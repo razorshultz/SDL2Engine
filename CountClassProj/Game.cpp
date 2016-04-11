@@ -16,7 +16,6 @@ Game::Game() :  mWindow(), mPlayer("be.jpg", mWindow.GetRenderer(), 0.0f, 0), mP
 	mQuit = false;
 	mPlayer.mPositionX = 0;
 	mPlayer.mPositionY = 0;
-
 }
 
 void Game::Run()
@@ -124,40 +123,56 @@ void Game::Update()
 
 	if (mPlayer.GetRightPressed())
 	{	
-
-		mPlayer.SetAccelerationX(20.5f, UPDATE_INTERVAL);
+		mPlayer.SetAccelerationX(25.0f, UPDATE_INTERVAL);
 	}
 
 	if (mPlayer.GetLeftPressed())
 	{ 	
-		mPlayer.SetAccelerationX(-20.5f, UPDATE_INTERVAL);
+		mPlayer.SetAccelerationX(-25.0f, UPDATE_INTERVAL);
 	}
 
 	if (mPlayer.GetDownPressed())
 	{
-		mPlayer.OffsetAccelerationY(0.5f, UPDATE_INTERVAL);
+		mPlayer.SetAccelerationY(25.0f, UPDATE_INTERVAL);
 	}
 
 	if (mPlayer.GetUpPressed())
 	{
-		mPlayer.OffsetAccelerationY(-0.5f, UPDATE_INTERVAL);	
+		mPlayer.SetAccelerationY(-25.0f, UPDATE_INTERVAL);	
 	}
 	
-	if (mPlayer.GetDownPressed() && mPlayer.GetUpPressed())
-	{
-		//mPlayer.SetVelocityY(0.0f,  UPDATE_INTERVAL);
-	}
+
 
 	/* If the player goes over the max velocity, take away 1 to keep him at the limit*/
-	if (mPlayer.GetVelocityX() > 10.5f)
+	if (mPlayer.GetVelocityX() > 20.5f)
 		mPlayer.OffsetVelocityX(-1.0f, UPDATE_INTERVAL);
 
-	if (mPlayer.GetVelocityX() < -10.5f)
+	if (mPlayer.GetVelocityX() < -20.5f)
 		mPlayer.OffsetVelocityX(1.0f, UPDATE_INTERVAL);
+
+	if (mPlayer.GetVelocityY() > 20.5f)
+		mPlayer.OffsetVelocityY(-1.0f, UPDATE_INTERVAL);
+
+	if (mPlayer.GetVelocityY() < -20.5f)
+		mPlayer.OffsetVelocityY(1.0f, UPDATE_INTERVAL);
 
 	/* Increment player velocity by acceleration*/
 	mPlayer.OffsetVelocityX(mPlayer.GetAccelerationX(), UPDATE_INTERVAL);
 	mPlayer.OffsetVelocityY(mPlayer.GetAccelerationY(), UPDATE_INTERVAL);
+
+	/* Apply friction - if the player is travelling and the opposite movement control is not pressed, constantly lose speed
+	** not the best solution since I want to apply friction constantly regardless, but it doesn't seem to work if I take out !mPlayer checks */
+	if (mPlayer.GetVelocityX() < 0 && !mPlayer.GetLeftPressed())
+		mPlayer.OffsetVelocityX(0.8f, UPDATE_INTERVAL);
+
+	if (mPlayer.GetVelocityX() > 0 && !mPlayer.GetRightPressed())
+		mPlayer.OffsetVelocityX(-0.8f, UPDATE_INTERVAL);
+
+	if (mPlayer.GetVelocityY() < 0 && !mPlayer.GetUpPressed())
+		mPlayer.OffsetVelocityY(0.8f, UPDATE_INTERVAL);
+
+	if (mPlayer.GetVelocityY() > 0 && !mPlayer.GetDownPressed())
+		mPlayer.OffsetVelocityY(-0.8f, UPDATE_INTERVAL);
 
 	/* Increment position based on velocity */
 	mPlayer.mPositionX += mPlayer.GetVelocityX() * UPDATE_INTERVAL;

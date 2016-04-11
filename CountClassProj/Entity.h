@@ -18,6 +18,9 @@ public:
 	float mPositionY;
 	void draw(SDL_Renderer* renderer) const;
 
+	float mVelocityX;
+
+
 	//set velocity of x, multiply it by our constant UPDATE_INTERVAL
 	 void SetVelocityX(const float& acceleration, const float& interval);
 	
@@ -59,7 +62,7 @@ protected:
 	float friction;
 	float mAccelerationX;
 	float mAccelerationY;
-	float mVelocityX;
+	
 	float mVelocityY;
 	
 
