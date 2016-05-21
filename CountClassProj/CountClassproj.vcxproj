@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Ball.h" />
     <ClInclude Include="CountClass.h" />
     <ClInclude Include="CountMenu.h" />
     <ClInclude Include="Entity.h" />
@@ -23,6 +24,7 @@
     <ClInclude Include="Texture.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Ball.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="FunctionButton.cpp" />
     <ClCompile Include="FunctionButtonDisplay.cpp" />

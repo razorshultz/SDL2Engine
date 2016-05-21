@@ -24,19 +24,17 @@ Texture::Texture(std::string& filename, SDL_Renderer* renderer)
 void Texture::SetTexture(std::string filename, SDL_Renderer* renderer)
 {
 	SDL_Texture* tex_cache = TextureMap[filename];
-	try {
+	try 
+	{
 		if (tex_cache == nullptr)
 		{
 			SDL_Surface* loadedSurface = IMG_Load(filename.c_str());
-
 
 			if (loadedSurface == nullptr)
 			{
 				if (filename == "default.jpg")
 				throw DefaultTextureIsMissing();
 
-
-				//printf("Unable to load image %s! SDL_image Error: %s\n", filename.c_str(), IMG_GetError());
 				SetTexture("default.jpg", renderer);
 			}
 			else
@@ -45,8 +43,6 @@ void Texture::SetTexture(std::string filename, SDL_Renderer* renderer)
 
 				if (mTexture == nullptr)
 					printf("Unable to create texture from %s! SDL Error: %s\n", filename.c_str(), SDL_GetError());
-
-
 			}
 
 			tex_cache = mTexture;

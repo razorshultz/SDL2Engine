@@ -6,6 +6,7 @@
 #include <assert.h>
 #include "SDLWindow.h"
 #include <SDL.h>
+#include "Ball.h"
 
 class Game
 {
@@ -27,6 +28,7 @@ private:
 	Player mPlayer;
 	Player mPlayer2;
 	bool mQuit;
+	Ball mBall;
 	
 
 
