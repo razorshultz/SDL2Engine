@@ -9,14 +9,12 @@
 #define MAX_CYCLES_PER_FRAME (MAXIMUM_FRAME_RATE / MINIMUM_FRAME_RATE)
 
 const float& TimePerFrame = 1.0f / 60.0f;
+bool ballSpeedZeroed = false;
 
-
-Game::Game() :  mWindow(), mPlayer("paddle.jpg", mWindow.GetRenderer(), 0.0f, 0), mPlayer2("be.jpg", mWindow.GetRenderer(), 300.0f, 300.0f),
-				mBall("be.jpg", mWindow.GetRenderer(), 400, 400, 1, 0)
+Game::Game() :  mWindow(1024, 720), mPlayer("paddle.jpg", mWindow.GetRenderer(), 500.0f, 500.0f), mPlayer2("paddle.jpg", mWindow.GetRenderer(), 900.0f, 100.0f),
+				mBall("be.jpg", mWindow.GetRenderer(), 100, 100, 1, 0)
 {
 	mQuit = false;
-	mPlayer.mPositionX = 0;
-	mPlayer.mPositionY = 0;
 }
 
 void Game::Run()
@@ -111,16 +109,14 @@ void Game::Update()
 	
     mPlayer.HandleEvents(&mEvent);
 
-
-
 	if (mPlayer.GetRightPressed())
 	{	
-		mPlayer.SetAccelerationX(25.0f, UPDATE_INTERVAL);
+		mPlayer.SetAccelerationX(35.0f, UPDATE_INTERVAL);
 	}
 
 	if (mPlayer.GetLeftPressed())
 	{ 	
-		mPlayer.SetAccelerationX(-25.0f, UPDATE_INTERVAL);
+		mPlayer.SetAccelerationX(-35.0f, UPDATE_INTERVAL);
 	}
 
 	if (mPlayer.GetDownPressed())
@@ -133,6 +129,30 @@ void Game::Update()
 		mPlayer.SetAccelerationY(-35.0f, UPDATE_INTERVAL);	
 	}
 	
+	
+
+	/*if ((mBall.GetPositionX() > mWindow.GetXSize() - 100) && !ballSpeedZeroed)
+	{
+		mBall.SetVelocityX(-10.0f, UPDATE_INTERVAL);
+		mBall.SetAccelerationX(-90.5, UPDATE_INTERVAL);
+		ballSpeedZeroed = true;
+	}*/
+	
+	if (mBall.GetPositionX() >= mPlayer2.GetPositionX() - mPlayer2.GetTextureWidth() && mBall.GetPositionY() >= mPlayer2.GetPositionY() && mBall.GetPositionY() <= mPlayer2.GetPositionY() + mPlayer2.GetTextureHeight())
+	{
+		mBall.SetVelocityX(-10.0f, UPDATE_INTERVAL);
+		mBall.SetAccelerationX(-90.5, UPDATE_INTERVAL);
+		ballSpeedZeroed = true;
+	}
+
+
+
+	/*if ((mBall.GetPositionX() < mWindow.GetXSize() - 100) && ballSpeedZeroed)
+	{
+		
+		ballSpeedZeroed = false;
+	}*/
+
 	/* If the player goes over the max velocity, take away 1 to keep him at the limit*/
 	if (mPlayer.GetVelocityX() > 20.5f)
 		mPlayer.OffsetVelocityX(-1.0f, UPDATE_INTERVAL);
@@ -146,30 +166,72 @@ void Game::Update()
 	if (mPlayer.GetVelocityY() < -20.5f)
 		mPlayer.OffsetVelocityY(1.0f, UPDATE_INTERVAL);
 
+	if (mBall.GetVelocityX() > 10.5f)
+		mBall.OffsetVelocityX(-1.0f, UPDATE_INTERVAL);
+
+	if (mBall.GetVelocityX() < -10.5f)
+		mBall.OffsetVelocityX(1.0f, UPDATE_INTERVAL);
+
 	/* Increment player velocity by acceleration*/
 	mPlayer.OffsetVelocityX(mPlayer.GetAccelerationX(), UPDATE_INTERVAL);
 	mPlayer.OffsetVelocityY(mPlayer.GetAccelerationY(), UPDATE_INTERVAL);
 
+	mBall.OffsetVelocityX(mBall.GetAccelerationX(), UPDATE_INTERVAL);
+
 	/* Apply friction - if the player is travelling and the opposite movement control is not pressed, constantly lose speed
-	** not the best solution since I want to apply friction constantly regardless, but it doesn't seem to work if I take out !mPlayer checks */
-	if (mPlayer.GetVelocityX() < 0 && !mPlayer.GetLeftPressed())
-		mPlayer.OffsetVelocityX(0.8f, UPDATE_INTERVAL);
+	** until the the speed is its own distance (or more) from 0. In this case, the velocity instantly gets set to zero to brake it. */
+	if (!mPlayer.GetLeftPressed() && !mPlayer.GetRightPressed())
+	{
+		if (mPlayer.GetVelocityX() < 0)
+		{
+			mPlayer.OffsetVelocityX(0.8f, UPDATE_INTERVAL);
 
-	if (mPlayer.GetVelocityX() > 0 && !mPlayer.GetRightPressed())
-		mPlayer.OffsetVelocityX(-0.8f, UPDATE_INTERVAL);
+			if (0 + mPlayer.GetVelocityX() >= 0.0f)
+				mPlayer.SetVelocityX(0.0f, UPDATE_INTERVAL);
+		}
+		
+		 if (mPlayer.GetVelocityX() > 0)
+		{
+			mPlayer.OffsetVelocityX(-0.8f, UPDATE_INTERVAL);
 
-	if (mPlayer.GetVelocityY() < 0 && !mPlayer.GetUpPressed())
-		mPlayer.OffsetVelocityY(0.8f, UPDATE_INTERVAL);
+			if (0 + mPlayer.GetVelocityX() <= 0.0f)
+				mPlayer.SetVelocityX(0.0f, UPDATE_INTERVAL);
+		}
+	}
 
-	if (mPlayer.GetVelocityY() > 0 && !mPlayer.GetDownPressed())
-		mPlayer.OffsetVelocityY(-0.8f, UPDATE_INTERVAL);
+
+	if (!mPlayer.GetUpPressed() && !mPlayer.GetDownPressed())
+	{
+		if (mPlayer.GetVelocityY() < 0)
+		{
+			mPlayer.OffsetVelocityY(0.4f, UPDATE_INTERVAL);
+
+			if (0 + mPlayer.GetVelocityY() >= 0.0f)
+				mPlayer.SetVelocityY(0.0f, UPDATE_INTERVAL);
+		}
+
+		if (mPlayer.GetVelocityY() > 0)
+		{
+			mPlayer.OffsetVelocityY(-0.4f, UPDATE_INTERVAL);
+
+			if (0 + mPlayer.GetVelocityY() <= 0.0f)
+				mPlayer.SetVelocityY(0.0f, UPDATE_INTERVAL);
+		}
+	}
+
+
+
 
 	/* Increment position based on velocity */
-	mPlayer.mPositionX += mPlayer.GetVelocityX() * UPDATE_INTERVAL;
-	mPlayer.mPositionY += mPlayer.GetVelocityY() * UPDATE_INTERVAL;
+	//mPlayer's X Position += mPlayer.GetVelocityX() * UPDATE_INTERVAL;
+	mPlayer.OffsetPositionX(mPlayer.GetVelocityX() * UPDATE_INTERVAL);
+	mPlayer.OffsetPositionY(mPlayer.GetVelocityY() * UPDATE_INTERVAL);
+
+	mBall.OffsetPositionX(mBall.GetVelocityX() * UPDATE_INTERVAL);
 	
 	/* use position to render, finally! */
 	mPlayer.SetMove(UPDATE_INTERVAL);
+	mBall.SetMove(UPDATE_INTERVAL);
 }
 
 void Game::Render()
@@ -177,5 +239,6 @@ void Game::Render()
 	SDL_RenderClear(mWindow.GetRenderer());
 	mPlayer.draw(mWindow.GetRenderer());
 	mPlayer2.draw(mWindow.GetRenderer());
+	mBall.draw(mWindow.GetRenderer());
 	SDL_RenderPresent(mWindow.GetRenderer());
 }

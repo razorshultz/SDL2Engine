@@ -15,8 +15,7 @@ public:
 	Entity(std::string texfilename, SDL_Renderer* renderer, float& x, float& y, float mAccelerationX, float mAccelerationY);
 	virtual ~Entity();
 
-	float mPositionX;
-	float mPositionY;
+	
 	void draw(SDL_Renderer* renderer) const;
 
 	
@@ -33,8 +32,17 @@ public:
 	 void SetMove(float dt);
 
 	 void OffsetVelocityX(float accel, const float& interval);
-
 	 void OffsetVelocityY(float accel, const float& interval);
+
+
+	 inline float GetPositionX() const { return mPositionX; };
+	 inline float GetPositionY() const { return mPositionY; };
+
+	 void OffsetPositionX(float offset);
+	 void OffsetPositionY(float offset);
+
+	 inline int GetTextureHeight() const { return mRectFrame.h; };
+	 inline int GetTextureWidth() const { return mRectFrame.w; };
 
 	//these should probably be protected, to detect clicks of derived classes 
 	inline bool GetClickedOn() const { return ClickedOn; };
@@ -63,7 +71,9 @@ protected:
 	float mAccelerationX =0;
 	float mAccelerationY =0;
 	float mVelocityY =0;
-	float mVelocityX;
+	float mVelocityX = 0;
+	float mPositionX = 0;
+	float mPositionY = 0;
 
 private:
 	//these should probably be protected, to detect clicks of derived classes 

@@ -3,13 +3,21 @@
 
 
 
-Entity::Entity(std::string texfilename, SDL_Renderer* renderer) : mTexFilename(texfilename), mTexture(texfilename, renderer), Clickable(true), mVelocityX(0), mVelocityY(0), mAccelerationX(0.0f), mAccelerationY(0.0f), friction(0.1f)
+Entity::Entity(std::string texfilename, SDL_Renderer* renderer) : mTexFilename(texfilename), mTexture(texfilename, renderer), Clickable(true), mPositionX(0), mPositionY(0), mVelocityX(0), mVelocityY(0), mAccelerationX(0.0f), mAccelerationY(0.0f), friction(0.1f)
 {
 	mRectFrame.y = 0;
 	mRectFrame.x = 0;
+
+	//use SDL_QueryTexture to look at the entity's Texture file, and use its actual size to set the collision frame up! we declare 2 ints to store the info
+	int w = 0, h = 0;
+	SDL_QueryTexture(mTexture.GetTexture(), nullptr, nullptr, &w, &h);
+
+	//use stored info from SDL_QueryTexture to set the collision frame
+	mRectFrame.w = w;
+	mRectFrame.h = h;
 }
 
-Entity::Entity(std::string texfilename, SDL_Renderer* renderer, float& x, float& y) : mTexFilename(texfilename), mTexture(texfilename, renderer), Clickable(false), mVelocityX(0), mVelocityY(0), mAccelerationX(0.0f), mAccelerationY(0.0f), friction(0.1f)
+Entity::Entity(std::string texfilename, SDL_Renderer* renderer, float& x, float& y) : mTexFilename(texfilename), mTexture(texfilename, renderer), Clickable(false), mPositionX(x), mPositionY(y), mVelocityX(0), mVelocityY(0), mAccelerationX(0.0f), mAccelerationY(0.0f), friction(0.1f)
 {
 	mRectFrame.x = x; 
 	mRectFrame.y = y;
@@ -23,7 +31,7 @@ Entity::Entity(std::string texfilename, SDL_Renderer* renderer, float& x, float&
 	mRectFrame.h = h ;
 }
 
-Entity::Entity(std::string texfilename, SDL_Renderer* renderer, float& x, float& y, float AccelerationX, float AccelerationY) : mTexFilename(texfilename), mTexture(texfilename, renderer), Clickable(false), mVelocityX(0), mVelocityY(0), mAccelerationX(AccelerationX), mAccelerationY(AccelerationY), friction(0.1f)
+Entity::Entity(std::string texfilename, SDL_Renderer* renderer, float& x, float& y, float AccelerationX, float AccelerationY) : mTexFilename(texfilename), mTexture(texfilename, renderer), Clickable(false), mPositionX(x), mPositionY(y), mVelocityX(0), mVelocityY(0), mAccelerationX(AccelerationX), mAccelerationY(AccelerationY), friction(0.1f)
 {
 	mRectFrame.x = x;
 	mRectFrame.y = y;
@@ -89,6 +97,17 @@ void Entity::OffsetAccelerationY(float accel, const float& interval)
 
 	mAccelerationY += accel *interval;
 }
+
+void Entity::OffsetPositionX(float offset)
+{
+	mPositionX += offset;
+}
+
+void Entity::OffsetPositionY(float offset)
+{
+	mPositionY += offset;
+}
+
 
 //use our velocities that we've received from the update cycle to set a final position which we use as the position to render our destination rectangle (mRectFrame) at
 void Entity::SetMove(float dt)

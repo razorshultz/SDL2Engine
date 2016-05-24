@@ -7,6 +7,11 @@ SDLWindow::SDLWindow()
 	Init();
 }
 
+SDLWindow::SDLWindow(int x, int y) : mXSize(x), mYSize(y)
+{
+	Init();
+}
+
 SDLWindow::~SDLWindow()
 {
 	SDL_Quit();
@@ -34,7 +39,7 @@ bool SDLWindow::Init()
 		}
 
 		//create window
-		mWindow = SDL_CreateWindow("Counter Window", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1280, 720, SDL_WINDOW_SHOWN);
+		mWindow = SDL_CreateWindow("Counter Window", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, mXSize, mYSize, SDL_WINDOW_SHOWN);
 
 		if (mWindow == nullptr)
 		{
