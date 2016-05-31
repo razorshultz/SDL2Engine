@@ -82,7 +82,7 @@ void Entity::SetAccelerationX(float accel, const float& interval)
 
 void Entity::SetAccelerationY(float accel, const float& interval)
 {
-	mAccelerationY = accel* interval;
+	mAccelerationY = accel * interval;
 }
 
 void Entity::OffsetAccelerationX(float accel, const float& interval)
@@ -98,7 +98,8 @@ void Entity::OffsetAccelerationY(float accel, const float& interval)
 	mAccelerationY += accel *interval;
 }
 
-void Entity::OffsetPositionX(float offset)
+void Entity::
+OffsetPositionX(float offset)
 {
 	mPositionX += offset;
 }

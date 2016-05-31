@@ -3,16 +3,14 @@
 #include <SDL.h>
 #include <cmath>
 
-#define MAXIMUM_FRAME_RATE 120
-#define MINIMUM_FRAME_RATE 15
-#define UPDATE_INTERVAL (float)(1.0 / MAXIMUM_FRAME_RATE)
-#define MAX_CYCLES_PER_FRAME (MAXIMUM_FRAME_RATE / MINIMUM_FRAME_RATE)
 
-const float& TimePerFrame = 1.0f / 60.0f;
+float UPDATE_INTERVAL = 0;
+float frameend = 0;
+float framestart = 0;
 bool ballSpeedZeroed = false;
 
-Game::Game() :  mWindow(1024, 720), mPlayer("paddle.jpg", mWindow.GetRenderer(), 500.0f, 500.0f), mPlayer2("paddle.jpg", mWindow.GetRenderer(), 900.0f, 100.0f),
-				mBall("be.jpg", mWindow.GetRenderer(), 100, 100, 1, 0)
+Game::Game() :  mWindow(1024, 720), mPlayer("paddle.jpg", mWindow.GetRenderer(), 500.0f, 500.0f), mPlayer2("paddle.jpg", mWindow.GetRenderer(), 900.0f, 150.0f),
+				mBall("be.jpg", mWindow.GetRenderer(), 100, 100, 0.001, 0)
 {
 	mQuit = false;
 }
@@ -20,31 +18,23 @@ Game::Game() :  mWindow(1024, 720), mPlayer("paddle.jpg", mWindow.GetRenderer(),
 void Game::Run()
 {
 	while (!mQuit)
-	{
+	{	
+
+		if (UPDATE_INTERVAL < 1)
+		{
+			framestart = SDL_GetTicks();
+			SDL_Delay(1);
+			frameend = SDL_GetTicks();
+			UPDATE_INTERVAL = frameend - framestart;
+		}
+
+		framestart = SDL_GetTicks();
 		ProcessEvents();
+		Update();
+		Render();
+		frameend = SDL_GetTicks();
+		UPDATE_INTERVAL = frameend - framestart;
 
-		static double lastFrameTime = SDL_GetTicks();
-		static double cyclesLeftOver = 0.0;
-		double currentTime;
-		double updateIterations;
-
-		currentTime = SDL_GetTicks();
-		updateIterations = ((currentTime - lastFrameTime) + cyclesLeftOver);
-
-		if (updateIterations > (MAX_CYCLES_PER_FRAME * UPDATE_INTERVAL)) {
-			updateIterations = (MAX_CYCLES_PER_FRAME * UPDATE_INTERVAL);
-		}
-
-		while (updateIterations > UPDATE_INTERVAL) {
-			updateIterations -= UPDATE_INTERVAL;
-
-			Update(); // Update game state a variable number of times
-		}
-
-		cyclesLeftOver = updateIterations;
-		lastFrameTime = currentTime;
-
-		Render(); // Draw the scene only once
 	}
 }
 
@@ -107,26 +97,27 @@ void Game::ProcessEvents()
 void Game::Update()
 {
 	
+	
     mPlayer.HandleEvents(&mEvent);
 
 	if (mPlayer.GetRightPressed())
 	{	
-		mPlayer.SetAccelerationX(35.0f, UPDATE_INTERVAL);
+		mPlayer.SetAccelerationX(0.003f, UPDATE_INTERVAL);
 	}
 
 	if (mPlayer.GetLeftPressed())
 	{ 	
-		mPlayer.SetAccelerationX(-35.0f, UPDATE_INTERVAL);
+		mPlayer.SetAccelerationX(-0.003f, UPDATE_INTERVAL);
 	}
 
 	if (mPlayer.GetDownPressed())
 	{
-		mPlayer.SetAccelerationY(35.0f, UPDATE_INTERVAL);
+		mPlayer.SetAccelerationY(40.0f, UPDATE_INTERVAL);
 	}
 
 	if (mPlayer.GetUpPressed())
 	{
-		mPlayer.SetAccelerationY(-35.0f, UPDATE_INTERVAL);	
+		mPlayer.SetAccelerationY(-40.0f, UPDATE_INTERVAL);	
 	}
 	
 	
@@ -137,12 +128,22 @@ void Game::Update()
 		mBall.SetAccelerationX(-90.5, UPDATE_INTERVAL);
 		ballSpeedZeroed = true;
 	}*/
-	
-	if (mBall.GetPositionX() >= mPlayer2.GetPositionX() - mPlayer2.GetTextureWidth() && mBall.GetPositionY() >= mPlayer2.GetPositionY() && mBall.GetPositionY() <= mPlayer2.GetPositionY() + mPlayer2.GetTextureHeight())
-	{
-		mBall.SetVelocityX(-10.0f, UPDATE_INTERVAL);
-		mBall.SetAccelerationX(-90.5, UPDATE_INTERVAL);
-		ballSpeedZeroed = true;
+
+	/* if ((mBall.GetPositionY() >= mPlayer2.GetPositionY() && mBall.GetPositionY() <= mPlayer2.GetPositionY() + mPlayer2.GetTextureHeight()) 
+			|| mBall.GetPositionY() + mBall.GetTextureHeight() >= mPlayer2.GetPositionY() && 
+			mBall.GetPositionY() + mBall.GetTextureHeight() <= mPlayer2.GetPositionY() + mPlayer2.GetTextureHeight())*/
+
+
+		//if x position is greater
+	if (mBall.GetPositionX() + mBall.GetTextureWidth() > mPlayer2.GetPositionX())
+	{	//if ball.Y greater than Player2.Y + player2.height, or ball.y + ball.height greater than player2.y
+		if(mBall.GetPositionY()  >=  mPlayer2.GetPositionY() && mBall.GetPositionY() <= mPlayer2.GetPositionY() + mPlayer2.GetTextureHeight()
+			|| mBall.GetPositionY() + mBall.GetTextureHeight() >= mPlayer2.GetPositionY())
+		{
+			mBall.SetVelocityX(-10.0f, UPDATE_INTERVAL);
+			mBall.SetAccelerationX(-90.5, UPDATE_INTERVAL);
+			ballSpeedZeroed = true;
+		}
 	}
 
 
@@ -154,10 +155,11 @@ void Game::Update()
 	}*/
 
 	/* If the player goes over the max velocity, take away 1 to keep him at the limit*/
-	if (mPlayer.GetVelocityX() > 20.5f)
+	if (mPlayer.GetVelocityX() > 200.0f)
 		mPlayer.OffsetVelocityX(-1.0f, UPDATE_INTERVAL);
+		
 
-	if (mPlayer.GetVelocityX() < -20.5f)
+	if (mPlayer.GetVelocityX() < -200.0f)
 		mPlayer.OffsetVelocityX(1.0f, UPDATE_INTERVAL);
 
 	if (mPlayer.GetVelocityY() > 20.5f)
@@ -166,10 +168,10 @@ void Game::Update()
 	if (mPlayer.GetVelocityY() < -20.5f)
 		mPlayer.OffsetVelocityY(1.0f, UPDATE_INTERVAL);
 
-	if (mBall.GetVelocityX() > 10.5f)
+	if (mBall.GetVelocityX() > 20.5f)
 		mBall.OffsetVelocityX(-1.0f, UPDATE_INTERVAL);
 
-	if (mBall.GetVelocityX() < -10.5f)
+	if (mBall.GetVelocityX() < -20.5f)
 		mBall.OffsetVelocityX(1.0f, UPDATE_INTERVAL);
 
 	/* Increment player velocity by acceleration*/
@@ -204,7 +206,7 @@ void Game::Update()
 	{
 		if (mPlayer.GetVelocityY() < 0)
 		{
-			mPlayer.OffsetVelocityY(0.4f, UPDATE_INTERVAL);
+			mPlayer.OffsetVelocityY(0.8f, UPDATE_INTERVAL);
 
 			if (0 + mPlayer.GetVelocityY() >= 0.0f)
 				mPlayer.SetVelocityY(0.0f, UPDATE_INTERVAL);
