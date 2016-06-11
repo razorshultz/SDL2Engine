@@ -55,34 +55,34 @@ Entity::~Entity()
 
 }
 
-void Entity::SetVelocityX(const float& acceleration,  const float& interval) //set velocity with acceleration. pass in 1 for no change. // interval is deltatime
+void Entity::SetVelocityX(const float& acceleration,  const double& interval) //set velocity with acceleration. pass in 1 for no change. // interval is deltatime
 { 
 	mVelocityX = acceleration  *  interval; 
 }
 
-void Entity::SetVelocityY(const float& acceleration, const float& interval)
+void Entity::SetVelocityY(const float& acceleration, const double& interval)
 {
 	mVelocityY = acceleration *  interval;
 };
 
-void Entity::OffsetVelocityX(float accel, const float& interval)
+void Entity::OffsetVelocityX(float accel, const double& interval)
 {
 	mVelocityX += accel * interval;
 }
 
-void Entity::OffsetVelocityY(float accel, const float& interval)
+void Entity::OffsetVelocityY(float accel, const double& interval)
 {
 	mVelocityY += accel * interval;
 }
 
-void Entity::SetAccelerationX(float accel, const float& interval)
+void Entity::SetAccelerationX(float accel)
 {
-	mAccelerationX = accel * interval;
+	mAccelerationX = accel;
 }
 
-void Entity::SetAccelerationY(float accel, const float& interval)
+void Entity::SetAccelerationY(float accel)
 {
-	mAccelerationY = accel * interval;
+	mAccelerationY = accel;
 }
 
 void Entity::OffsetAccelerationX(float accel, const float& interval)
@@ -95,18 +95,17 @@ void Entity::OffsetAccelerationX(float accel, const float& interval)
 void Entity::OffsetAccelerationY(float accel, const float& interval)
 {
 
-	mAccelerationY += accel *interval;
+	mAccelerationY += accel * interval;
 }
 
-void Entity::
-OffsetPositionX(float offset)
+void Entity::OffsetPositionX(float velocity )
 {
-	mPositionX += offset;
+	mPositionX += velocity;
 }
 
-void Entity::OffsetPositionY(float offset)
+void Entity::OffsetPositionY(float velocity)
 {
-	mPositionY += offset;
+	mPositionY += velocity ;
 }
 
 

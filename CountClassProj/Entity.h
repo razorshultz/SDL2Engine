@@ -21,25 +21,25 @@ public:
 	
 
 	//set velocity of x, multiply it by our constant UPDATE_INTERVAL
-	 void SetVelocityX(const float& acceleration, const float& interval);
+	 void SetVelocityX(const float& acceleration, const double& interval);
 	
 	//set velocity and multiply it by our constant UPDATE_INTERVAL
-	 void SetVelocityY(const float& acceleration,  const float& interval);
+	 void SetVelocityY(const float& acceleration,  const double& interval);
 
 	 void HandleEvents(SDL_Event* event);
 	
 	//Used at the end of each update cycle so we know the final position of our entity, which should be used for rendering
 	 void SetMove(float dt);
 
-	 void OffsetVelocityX(float accel, const float& interval);
-	 void OffsetVelocityY(float accel, const float& interval);
+	 void OffsetVelocityX(float accel, const double& interval);
+	 void OffsetVelocityY(float accel, const double& interval);
 
 
 	 inline float GetPositionX() const { return mPositionX; };
 	 inline float GetPositionY() const { return mPositionY; };
 
-	 void OffsetPositionX(float offset);
-	 void OffsetPositionY(float offset);
+	 void OffsetPositionX(float velocity);
+	 void OffsetPositionY(float velocity);
 
 	 inline int GetTextureHeight() const { return mRectFrame.h; };
 	 inline int GetTextureWidth() const { return mRectFrame.w; };
@@ -54,8 +54,8 @@ public:
 	inline float GetVelocityX() const { return mVelocityX; };
 	inline float GetVelocityY() const { return mVelocityY; };
 
-	 void SetAccelerationX(float accel, const float& interval);
-	 void SetAccelerationY(float accel, const float& interval);
+	 void SetAccelerationX(float accel);
+	 void SetAccelerationY(float accel);
 	 void OffsetAccelerationX(float accel, const float& interval);
 	 void OffsetAccelerationY(float accel, const float& interval);
 	
