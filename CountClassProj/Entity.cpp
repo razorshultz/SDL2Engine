@@ -115,10 +115,14 @@ void Entity::SetMove(double dt)
 
 	mRectFrame.y =  static_cast<int>(mPositionY);
 	mRectFrame.x = static_cast<int>(mPositionX);
+
+	//mRectFrame.y =  static_cast<int>(mPositionY) + (GetVelocityX() * interp);
+	//mRectFrame.x = static_cast<int>(mPositionX) + (GetVelocityY() * interp);
 };
 
 void Entity::draw(SDL_Renderer* renderer) const //draw without render extrapolation
 {
+
 	SDL_RenderCopy(renderer, mTexture.GetTexture(), nullptr, &mRectFrame);
 }
 

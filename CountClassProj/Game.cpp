@@ -4,13 +4,21 @@
 #include <cmath>
 #include <chrono>
 
-double UPDATE_INTERVAL;
+double UPDATE_INTERVAL = 1;
 float frameend = 0;
 float framestart = 0;
 bool ballSpeedZeroed = false;
 
 double MS_PER_UPDATE = 1000 / 60;
 
+
+
+
+	const int TICKS_PER_SECOND = 60;
+const int SKIP_TICKS = 1000 / TICKS_PER_SECOND;
+const int MAX_FRAMESKIP = 5;
+int loops;
+float interpolation;
 
 Game::Game() : mWindow(1024, 720), mPlayer("paddle.jpg", mWindow.GetRenderer(), 500.0f, 500.0f), mPlayer2("paddle.jpg", mWindow.GetRenderer(), 900.0f, 150.0f),
 mBall("be.jpg", mWindow.GetRenderer(), 100, 100, 0.001, 0)
@@ -23,10 +31,13 @@ mBall("be.jpg", mWindow.GetRenderer(), 100, 100, 0.001, 0)
 
 void Game::Run()
 {
-	/*while (!mQuit)
+
+	float nextGameTick = SDL_GetTicks();
+
+	while (!mQuit)
 	{
 
-		if (UPDATE_INTERVAL < 1)
+		/*if (UPDATE_INTERVAL < 1)
 		{
 			framestart = SDL_GetTicks();
 			SDL_Delay(1);
@@ -39,30 +50,26 @@ void Game::Run()
 		Update();
 		Render();
 		frameend = SDL_GetTicks();
-		UPDATE_INTERVAL = frameend - framestart;
+		UPDATE_INTERVAL = frameend - framestart;*/
 
-	}*/
-	double previous = SDL_GetTicks();
-	
-	double lag = 0.0;
-	
-	while (!mQuit)
-	{
-		double current = SDL_GetTicks();
-		UPDATE_INTERVAL = current - previous;
-		previous = current;
-		lag += UPDATE_INTERVAL;
-		ProcessEvents();
 
-		while (lag >= MS_PER_UPDATE)
+		loops = 0;
+		while (SDL_GetTicks() > nextGameTick && loops < MAX_FRAMESKIP)
 		{
+			ProcessEvents();
 			Update();
-			lag -= MS_PER_UPDATE;
+			nextGameTick += SKIP_TICKS;
+			loops++;
 		}
-		
+
+
+		interpolation = float(SDL_GetTicks() + SKIP_TICKS - nextGameTick) / float(SKIP_TICKS);
 		Render();
-		
+
 	}
+
+
+	
 }
 
 Game::~Game()
