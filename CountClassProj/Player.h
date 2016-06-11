@@ -11,6 +11,7 @@ public:
 	Player(std::string texfilename, SDL_Renderer* renderer);
 	Player(std::string texfilename, SDL_Renderer* renderer, float x, float y);
 	~Player();
+	void Update(double UPDATE_INTERVAL);
 	inline bool GetDownPressed() const {  return downpressed;  };
 	inline bool GetUpPressed() const  { return uppressed; };
 	inline void SetDownPressed(bool press) { downpressed = press; };

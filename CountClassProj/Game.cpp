@@ -2,9 +2,8 @@
 #include "SDLWindow.h"
 #include <SDL.h>
 #include <cmath>
+#include <chrono>
 
-
-//float UPDATE_INTERVAL = 0;
 double UPDATE_INTERVAL;
 float frameend = 0;
 float framestart = 0;
@@ -17,6 +16,9 @@ Game::Game() : mWindow(1024, 720), mPlayer("paddle.jpg", mWindow.GetRenderer(), 
 mBall("be.jpg", mWindow.GetRenderer(), 100, 100, 0.001, 0)
 {
 	mQuit = false;
+	EntityList.push_back(&mPlayer);
+	EntityList.push_back(&mPlayer2);
+	EntityList.push_back(&mBall);
 }
 
 void Game::Run()
@@ -41,6 +43,7 @@ void Game::Run()
 
 	}*/
 	double previous = SDL_GetTicks();
+	
 	double lag = 0.0;
 	
 	while (!mQuit)
@@ -120,134 +123,25 @@ void Game::ProcessEvents()
 
 void Game::Update()
 {
-
-
 	mPlayer.HandleEvents(&mEvent);
 
-	if (mPlayer.GetRightPressed())
+	for (auto it = EntityList.begin(); it < EntityList.end(); ++it)
 	{
-		mPlayer.OffsetVelocityX(mPlayer.GetAccelerationX(), UPDATE_INTERVAL);
+		(*it)->Update(UPDATE_INTERVAL);
 	}
-
-	if (mPlayer.GetLeftPressed())
-	{
-		mPlayer.OffsetVelocityX(-mPlayer.GetAccelerationX(), UPDATE_INTERVAL);
-	}
-
-	if (mPlayer.GetDownPressed())
-	{
-		mPlayer.SetAccelerationY(40.0f);
-	}
-
-	if (mPlayer.GetUpPressed())
-	{
-		mPlayer.SetAccelerationY(-40.0f);
-	}
-
 	
-	mBall.OffsetVelocityX(mBall.GetAccelerationX(), UPDATE_INTERVAL);
-
-	/*if ((mBall.GetPositionX() > mWindow.GetXSize() - 100) && !ballSpeedZeroed)
-	{
-	mBall.SetVelocityX(-10.0f, UPDATE_INTERVAL);
-	mBall.SetAccelerationX(-90.5, UPDATE_INTERVAL);
-	ballSpeedZeroed = true;
-	}*/
-
-	//if x position is greater
-	if (mBall.GetPositionX() + mBall.GetTextureWidth() > mPlayer2.GetPositionX())
-	{	//if ball.Y greater than Player2.Y + player2.height, or ball.y + ball.height greater than player2.y
-		if (mBall.GetPositionY() >= mPlayer2.GetPositionY() && mBall.GetPositionY() <= mPlayer2.GetPositionY() + mPlayer2.GetTextureHeight()
-			|| mBall.GetPositionY() + mBall.GetTextureHeight() >= mPlayer2.GetPositionY())
-		{
-			mBall.SetVelocityX(-10.0f, UPDATE_INTERVAL);
-			mBall.SetAccelerationX(-90.5);
-			ballSpeedZeroed = true;
-		}
-	}
-
-	/* If the player goes over the max velocity, take away 1 to keep him at the limit*/
-	if (mPlayer.GetVelocityX() > 5.0f)
-		//mPlayer.OffsetVelocityX(-1.0f, UPDATE_INTERVAL);
-		mPlayer.SetVelocityX(5.0f, UPDATE_INTERVAL);
-
-
-	if (mPlayer.GetVelocityX() < -5.0f)
-		mPlayer.SetVelocityX(-5.0f, UPDATE_INTERVAL);
-
-	if (mPlayer.GetVelocityY() > 20.5f)
-		mPlayer.OffsetVelocityY(-1.0f, UPDATE_INTERVAL);
-
-	if (mPlayer.GetVelocityY() < -20.5f)
-		mPlayer.OffsetVelocityY(1.0f, UPDATE_INTERVAL);
-
-	if (mBall.GetVelocityX() > 20.5f)
-		mBall.OffsetVelocityX(-1.0f, UPDATE_INTERVAL);
-
-	if (mBall.GetVelocityX() < -20.5f)
-		mBall.OffsetVelocityX(1.0f, UPDATE_INTERVAL);
-
-
-	/* Apply friction - if the player is travelling and the opposite movement control is not pressed, constantly lose speed
-	 * until the the speed is its own distance (or more) from 0. In this case, the velocity instantly gets set to zero to brake it. */
-	if (!mPlayer.GetLeftPressed() && !mPlayer.GetRightPressed())
-	{
-		if (mPlayer.GetVelocityX() < 0)
-		{
-			mPlayer.OffsetVelocityX(0.4f, UPDATE_INTERVAL);
-
-			if (0 + mPlayer.GetVelocityX() > 0.0f)
-			{
-				mPlayer.SetVelocityX(0.0f, UPDATE_INTERVAL);
-				
-			}
-		}
-
-		if (mPlayer.GetVelocityX() > 0)
-		{
-			mPlayer.OffsetVelocityX(-0.4f, UPDATE_INTERVAL);
-
-			if (0 + mPlayer.GetVelocityX() < 0.0f)
-				mPlayer.SetVelocityX(0.0f, UPDATE_INTERVAL);
-		}
-	}
-
-
-	if (!mPlayer.GetUpPressed() && !mPlayer.GetDownPressed())
-	{
-		if (mPlayer.GetVelocityY() < 0)
-		{
-			mPlayer.OffsetVelocityY(0.004f, UPDATE_INTERVAL);
-
-			if (0 + mPlayer.GetVelocityY() > 0.0f)
-				mPlayer.SetVelocityY(0.0f, UPDATE_INTERVAL);
-		}
-
-		if (mPlayer.GetVelocityY() > 0)
-		{
-			mPlayer.OffsetVelocityY(-0.004f, UPDATE_INTERVAL);
-
-			if (0 + mPlayer.GetVelocityY() < 0.0f)
-				mPlayer.SetVelocityY(0.0f, UPDATE_INTERVAL);
-		}
-	}
-
-
-	/* Increment position based on velocity */
-	mPlayer.OffsetPositionX(mPlayer.GetVelocityX() * UPDATE_INTERVAL);
-	mPlayer.OffsetPositionY(mPlayer.GetVelocityY() * UPDATE_INTERVAL);
-	mBall.OffsetPositionX(mBall.GetVelocityX() * UPDATE_INTERVAL);
-
-	/* use position to render, finally! */
-	mPlayer.SetMove(UPDATE_INTERVAL);
-	mBall.SetMove(UPDATE_INTERVAL);
 }
 
 void Game::Render()
 {
 	SDL_RenderClear(mWindow.GetRenderer());
-	mPlayer.draw(mWindow.GetRenderer());
-	mPlayer2.draw(mWindow.GetRenderer());
-	mBall.draw(mWindow.GetRenderer());
+
+	for (auto it = EntityList.begin(); it < EntityList.end(); ++it)
+	{
+		(*it)->draw(mWindow.GetRenderer());
+	}
+
 	SDL_RenderPresent(mWindow.GetRenderer());
 }
+
+std::vector<Entity*> Game::EntityList;

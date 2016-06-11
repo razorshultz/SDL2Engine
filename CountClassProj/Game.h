@@ -7,6 +7,7 @@
 #include "SDLWindow.h"
 #include <SDL.h>
 #include "Ball.h"
+#include <vector>
 
 class Game
 {
@@ -32,7 +33,7 @@ private:
 	
 
 
-
+	static std::vector<Entity*> EntityList;
 
 };
 #endif

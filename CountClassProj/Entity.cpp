@@ -110,7 +110,7 @@ void Entity::OffsetPositionY(float velocity)
 
 
 //use our velocities that we've received from the update cycle to set a final position which we use as the position to render our destination rectangle (mRectFrame) at
-void Entity::SetMove(float dt)
+void Entity::SetMove(double dt)
 {	//really important! Since SD_Rects and pixels can both only increment by whole integers, we cast our float values as integers, and update x and y position of our destination rectangle with those
 
 	mRectFrame.y =  static_cast<int>(mPositionY);
@@ -121,6 +121,8 @@ void Entity::draw(SDL_Renderer* renderer) const //draw without render extrapolat
 {
 	SDL_RenderCopy(renderer, mTexture.GetTexture(), nullptr, &mRectFrame);
 }
+
+
 
 void Entity::HandleEvents(SDL_Event* events) //can take code out of here to put it into a different ui class derived from entity, which can be clicked on.
 {
