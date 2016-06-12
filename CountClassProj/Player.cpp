@@ -4,7 +4,7 @@
 Player::Player(std::string texfilename, SDL_Renderer* renderer, float x, float y) : Entity(texfilename, renderer, x, y), downpressed(false), uppressed(false), rightpressed(false), leftpressed(false)
 {
 	score = 0;
-	mAccelerationX = 100.0f;
+	mAccelerationX = 1.0f;
 }
 
 Player::Player(std::string texfilename, SDL_Renderer* renderer) : Entity(texfilename, renderer)
@@ -23,31 +23,31 @@ void Player::Update(float UPDATE_INTERVAL)
 {	
 	if(GetRightPressed())
 	{
-		OffsetVelocityX(GetAccelerationX());
+		OffsetVelocityX(this->GetAccelerationX());
 	}
 
 	if (GetLeftPressed())
 	{
-		OffsetVelocityX( -GetAccelerationX());
+		OffsetVelocityX( -this->GetAccelerationX());
 	}
 
 	if (GetDownPressed())
 	{
-		SetAccelerationY(40.0f);
+		OffsetVelocityY(this->GetAccelerationX(), UPDATE_INTERVAL);
 	}
 
 	if (GetUpPressed())
 	{
-		SetAccelerationY(-40.0f);
+		OffsetVelocityY(-this->GetAccelerationX(), UPDATE_INTERVAL);
 	}
 
 	/* If the player goes over the max velocity, take away 1 to keep him at the limit*/
-	if (GetVelocityX() > 5.0f)
+	if (GetVelocityX() > 500.0f)
 		//mPlayer.OffsetVelocityX(-1.0f, UPDATE_INTERVAL);
 		SetVelocityX(5.0f, UPDATE_INTERVAL);
 
 
-	if (GetVelocityX() < -5.0f)
+	if (GetVelocityX() < -500.0f)
 		SetVelocityX(-5.0f, UPDATE_INTERVAL);
 
 	if (GetVelocityY() > 20.5f)
