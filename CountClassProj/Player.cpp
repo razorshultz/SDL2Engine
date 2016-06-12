@@ -19,16 +19,16 @@ Player::~Player()
 {
 }
 
-void Player::Update(double UPDATE_INTERVAL)
+void Player::Update(float UPDATE_INTERVAL)
 {	
 	if(GetRightPressed())
 	{
-		OffsetVelocityX(GetAccelerationX(), UPDATE_INTERVAL);
+		OffsetVelocityX(GetAccelerationX());
 	}
 
 	if (GetLeftPressed())
 	{
-		OffsetVelocityX( -GetAccelerationX(), UPDATE_INTERVAL);
+		OffsetVelocityX( -GetAccelerationX());
 	}
 
 	if (GetDownPressed())
@@ -63,7 +63,7 @@ void Player::Update(double UPDATE_INTERVAL)
 	{
 		if (GetVelocityX() < 0)
 		{
-			OffsetVelocityX(0.4f, UPDATE_INTERVAL);
+			OffsetVelocityX(0.4f);
 
 			if (0 + GetVelocityX() > 0.0f)
 			{
@@ -74,7 +74,7 @@ void Player::Update(double UPDATE_INTERVAL)
 
 		if (GetVelocityX() > 0)
 		{
-			OffsetVelocityX(-0.4f, UPDATE_INTERVAL);
+			OffsetVelocityX(-0.4f);
 
 			if (0 + GetVelocityX() < 0.0f)
 				SetVelocityX(0.0f, UPDATE_INTERVAL);

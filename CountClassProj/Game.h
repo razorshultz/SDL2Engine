@@ -22,7 +22,7 @@ public:
 private:
 	void ProcessEvents();
 	void Update();
-	void Render();
+	void Render(float interp);
 
 	SDLWindow mWindow;
 	SDL_Event mEvent;

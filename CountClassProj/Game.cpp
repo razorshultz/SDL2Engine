@@ -3,18 +3,11 @@
 #include <SDL.h>
 #include <cmath>
 #include <chrono>
-
-double UPDATE_INTERVAL = 1;
-float frameend = 0;
-float framestart = 0;
-bool ballSpeedZeroed = false;
-
-double MS_PER_UPDATE = 1000 / 60;
+#include <windows.h>
 
 
-
-
-	const int TICKS_PER_SECOND = 60;
+float UPDATE_INTERVAL = 1;
+const int TICKS_PER_SECOND = 25;
 const int SKIP_TICKS = 1000 / TICKS_PER_SECOND;
 const int MAX_FRAMESKIP = 5;
 int loops;
@@ -30,28 +23,9 @@ mBall("be.jpg", mWindow.GetRenderer(), 100, 100, 0.001, 0)
 }
 
 void Game::Run()
-{
-
-	float nextGameTick = SDL_GetTicks();
-
+{	DWORD nextGameTick = SDL_GetTicks();
 	while (!mQuit)
 	{
-
-		/*if (UPDATE_INTERVAL < 1)
-		{
-			framestart = SDL_GetTicks();
-			SDL_Delay(1);
-			frameend = SDL_GetTicks();
-			UPDATE_INTERVAL = frameend - framestart;
-		}
-
-		framestart = SDL_GetTicks();
-		ProcessEvents();
-		Update();
-		Render();
-		frameend = SDL_GetTicks();
-		UPDATE_INTERVAL = frameend - framestart;*/
-
 
 		loops = 0;
 		while (SDL_GetTicks() > nextGameTick && loops < MAX_FRAMESKIP)
@@ -62,14 +36,10 @@ void Game::Run()
 			loops++;
 		}
 
-
 		interpolation = float(SDL_GetTicks() + SKIP_TICKS - nextGameTick) / float(SKIP_TICKS);
-		Render();
-
+		Render(interpolation);
 	}
 
-
-	
 }
 
 Game::~Game()
@@ -139,13 +109,13 @@ void Game::Update()
 	
 }
 
-void Game::Render()
+void Game::Render(float interp)
 {
 	SDL_RenderClear(mWindow.GetRenderer());
 
 	for (auto it = EntityList.begin(); it < EntityList.end(); ++it)
 	{
-		(*it)->draw(mWindow.GetRenderer());
+		(*it)->draw(mWindow.GetRenderer(), interp);
 	}
 
 	SDL_RenderPresent(mWindow.GetRenderer());

@@ -65,9 +65,9 @@ void Entity::SetVelocityY(const float& acceleration, const double& interval)
 	mVelocityY = acceleration *  interval;
 };
 
-void Entity::OffsetVelocityX(float accel, const double& interval)
+void Entity::OffsetVelocityX(float accel)
 {
-	mVelocityX += accel * interval;
+	mVelocityX += accel ;
 }
 
 void Entity::OffsetVelocityY(float accel, const double& interval)
@@ -110,20 +110,23 @@ void Entity::OffsetPositionY(float velocity)
 
 
 //use our velocities that we've received from the update cycle to set a final position which we use as the position to render our destination rectangle (mRectFrame) at
-void Entity::SetMove(double dt)
+void Entity::SetMove(float interp)
 {	//really important! Since SD_Rects and pixels can both only increment by whole integers, we cast our float values as integers, and update x and y position of our destination rectangle with those
 
-	mRectFrame.y =  static_cast<int>(mPositionY);
-	mRectFrame.x = static_cast<int>(mPositionX);
+	//mRectFrame.y =  static_cast<int>(mPositionY);
+	//mRectFrame.x = static_cast<int>(mPositionX);
 
-	//mRectFrame.y =  static_cast<int>(mPositionY) + (GetVelocityX() * interp);
-	//mRectFrame.x = static_cast<int>(mPositionX) + (GetVelocityY() * interp);
+	mRectFrame.y = static_cast<int>(mPositionY);
+	mRectFrame.x = static_cast<int>(mPositionX);
 };
 
-void Entity::draw(SDL_Renderer* renderer) const //draw without render extrapolation
+void Entity::draw(SDL_Renderer* renderer, float interp) const //draw without render extrapolation
 {
+	SDL_Rect reccy = mRectFrame;
+	reccy.y = static_cast<int>(mPositionY) + (this->GetVelocityY() * interp);
+	reccy.x = static_cast<int>(mPositionX) + (this->GetVelocityX() * interp);
 
-	SDL_RenderCopy(renderer, mTexture.GetTexture(), nullptr, &mRectFrame);
+	SDL_RenderCopy(renderer, mTexture.GetTexture(), nullptr, &reccy);
 }
 
 
