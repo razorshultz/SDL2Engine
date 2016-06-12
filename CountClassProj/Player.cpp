@@ -4,7 +4,7 @@
 Player::Player(std::string texfilename, SDL_Renderer* renderer, float x, float y) : Entity(texfilename, renderer, x, y), downpressed(false), uppressed(false), rightpressed(false), leftpressed(false)
 {
 	score = 0;
-	mAccelerationX = 1.0f;
+	mAccelerationX = 0.005f;
 }
 
 Player::Player(std::string texfilename, SDL_Renderer* renderer) : Entity(texfilename, renderer)
@@ -19,16 +19,16 @@ Player::~Player()
 {
 }
 
-void Player::Update(float UPDATE_INTERVAL)
+void Player::Update(const float& UPDATE_INTERVAL)
 {	
 	if(GetRightPressed())
 	{
-		OffsetVelocityX(this->GetAccelerationX());
+		OffsetVelocityX(this->GetAccelerationX(), UPDATE_INTERVAL);
 	}
 
 	if (GetLeftPressed())
 	{
-		OffsetVelocityX( -this->GetAccelerationX());
+		OffsetVelocityX( -this->GetAccelerationX(), UPDATE_INTERVAL);
 	}
 
 	if (GetDownPressed())
@@ -63,7 +63,7 @@ void Player::Update(float UPDATE_INTERVAL)
 	{
 		if (GetVelocityX() < 0)
 		{
-			OffsetVelocityX(0.4f);
+			OffsetVelocityX(0.4f, UPDATE_INTERVAL);
 
 			if (0 + GetVelocityX() > 0.0f)
 			{
@@ -74,7 +74,7 @@ void Player::Update(float UPDATE_INTERVAL)
 
 		if (GetVelocityX() > 0)
 		{
-			OffsetVelocityX(-0.4f);
+			OffsetVelocityX(-0.4f, UPDATE_INTERVAL);
 
 			if (0 + GetVelocityX() < 0.0f)
 				SetVelocityX(0.0f, UPDATE_INTERVAL);

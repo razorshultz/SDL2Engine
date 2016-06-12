@@ -16,8 +16,8 @@ public:
 	virtual ~Entity();
 
 	
-	virtual void draw(SDL_Renderer* renderer, float interp) const;
-	virtual void Update(float UPDATE_INTERVAL) = 0;
+	virtual void draw(SDL_Renderer* renderer) const;
+	virtual void Update(const float& UPDATE_INTERVAL) = 0;
 	
 
 	//set velocity of x, multiply it by our constant UPDATE_INTERVAL
@@ -31,8 +31,8 @@ public:
 	//Used at the end of each update cycle so we know the final position of our entity, which should be used for rendering
 	 void SetMove(float dt);
 
-	 void OffsetVelocityX(float accel);
-	 void OffsetVelocityY(float accel, const double& interval);
+	 void OffsetVelocityX(float accel, const float& interval);
+	 void OffsetVelocityY(float accel, const float& interval);
 
 
 	 inline float GetPositionX() const { return mPositionX; };
