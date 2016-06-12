@@ -15,9 +15,6 @@ Texture::Texture(std::string& filename, SDL_Renderer* renderer)
 	//if (mTexture == nullptr)
 	//	SetTexture("default.jpg", renderer);
 
-
-
-
 }
 
 //this function allows us to set the Texture manually, in case the constructor fails

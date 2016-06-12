@@ -32,6 +32,7 @@ public:
 	 void SetMove(float dt);
 
 	 void OffsetVelocityX(float accel, const float& interval);
+
 	 void OffsetVelocityY(float accel, const float& interval);
 
 

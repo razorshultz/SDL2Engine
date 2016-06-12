@@ -70,6 +70,7 @@ void Entity::OffsetVelocityX(float accel, const float& interval)
 	mVelocityX += accel * interval;
 }
 
+
 void Entity::OffsetVelocityY(float accel, const float& interval)
 {
 	mVelocityY += accel * interval;
@@ -112,8 +113,6 @@ void Entity::OffsetPositionY(float velocity)
 //use our velocities that we've received from the update cycle to set a final position which we use as the position to render our destination rectangle (mRectFrame) at
 void Entity::SetMove(float interp)
 {	//really important! Since SD_Rects and pixels can both only increment by whole integers, we cast our float values as integers, and update x and y position of our destination rectangle with those
-
-
 
 	mRectFrame.y = static_cast<int>(mPositionY);
 	mRectFrame.x = static_cast<int>(mPositionX);

@@ -21,6 +21,12 @@ Player::~Player()
 
 void Player::Update(const float& UPDATE_INTERVAL)
 {	
+
+	float OldVel = GetVelocityX();
+	//SetVelocityX(this->GetVelocityX() + GetAccelerationX(), UPDATE_INTERVAL);
+	//OffsetPositionX((OldVel + GetVelocityX()) * 0.5 * UPDATE_INTERVAL);
+
+
 	if(GetRightPressed())
 	{
 		OffsetVelocityX(this->GetAccelerationX(), UPDATE_INTERVAL);
@@ -40,6 +46,7 @@ void Player::Update(const float& UPDATE_INTERVAL)
 	{
 		OffsetVelocityY(-this->GetAccelerationX(), UPDATE_INTERVAL);
 	}
+
 
 	/* If the player goes over the max velocity, take away 1 to keep him at the limit*/
 	if (GetVelocityX() > 500.0f)
@@ -102,7 +109,9 @@ void Player::Update(const float& UPDATE_INTERVAL)
 	}
 
 	/* Increment position based on velocity */
-	OffsetPositionX(GetVelocityX() * UPDATE_INTERVAL);
+	//OffsetPositionX(GetVelocityX() * UPDATE_INTERVAL);
+	//OffsetPositionX((OldVel + GetVelocityX()) * 0.5 * UPDATE_INTERVAL);
+	OffsetPositionX((OldVel + GetVelocityX()) * 0.5 * UPDATE_INTERVAL);
 	OffsetPositionY(GetVelocityY() * UPDATE_INTERVAL);
 
 	/* use position to render, finally! */

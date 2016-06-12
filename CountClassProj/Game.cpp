@@ -6,7 +6,7 @@
 #include <windows.h>
 
 
-float UPDATE_INTERVAL = 0;
+double UPDATE_INTERVAL = 0;
 const int TICKS_PER_SECOND = 25;
 const int SKIP_TICKS = 1000 / TICKS_PER_SECOND;
 const int MAX_FRAMESKIP = 5;
@@ -19,6 +19,8 @@ bool ballSpeedZeroed = false;
 
 double MS_PER_UPDATE = 1000 / 60;
 
+
+
 Game::Game() : mWindow(1024, 720), mPlayer("paddle.jpg", mWindow.GetRenderer(), 500.0f, 500.0f), mPlayer2("paddle.jpg", mWindow.GetRenderer(), 900.0f, 150.0f),
 mBall("be.jpg", mWindow.GetRenderer(), 100, 100, 0.001, 0)
 {
@@ -29,7 +31,9 @@ mBall("be.jpg", mWindow.GetRenderer(), 100, 100, 0.001, 0)
 }
 
 void Game::Run()
-{	DWORD nextGameTick = SDL_GetTicks();
+{
+	
+
 	while (!mQuit)
 	{
 
@@ -40,6 +44,7 @@ void Game::Run()
 			frameend = SDL_GetTicks();
 			UPDATE_INTERVAL = frameend - framestart;
 		}
+
 		framestart = SDL_GetTicks();
 		ProcessEvents();
 		Update();
