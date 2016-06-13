@@ -19,8 +19,8 @@ Entity::Entity(std::string texfilename, SDL_Renderer* renderer) : mTexFilename(t
 
 Entity::Entity(std::string texfilename, SDL_Renderer* renderer, float& x, float& y) : mTexFilename(texfilename), mTexture(texfilename, renderer), Clickable(false), mPositionX(x), mPositionY(y), mVelocityX(0), mVelocityY(0), mAccelerationX(0.0f), mAccelerationY(0.0f), friction(0.1f)
 {
-	mRectFrame.x = x; 
-	mRectFrame.y = y;
+	mRectFrame.x = static_cast<int>(x); 
+	mRectFrame.y = static_cast<int>(y);
 
 //use SDL_QueryTexture to look at the entity's Texture file, and use its actual size to set the collision frame up! we declare 2 ints to store the info
 	int w =0, h = 0;
@@ -33,8 +33,8 @@ Entity::Entity(std::string texfilename, SDL_Renderer* renderer, float& x, float&
 
 Entity::Entity(std::string texfilename, SDL_Renderer* renderer, float& x, float& y, float AccelerationX, float AccelerationY) : mTexFilename(texfilename), mTexture(texfilename, renderer), Clickable(false), mPositionX(x), mPositionY(y), mVelocityX(0), mVelocityY(0), mAccelerationX(AccelerationX), mAccelerationY(AccelerationY), friction(0.1f)
 {
-	mRectFrame.x = x;
-	mRectFrame.y = y;
+	mRectFrame.x = static_cast<int>(x);
+	mRectFrame.y = static_cast<int>(y);
 
 	//use SDL_QueryTexture to look at the entity's Texture file, and use its actual size to set the collision frame up! we declare 2 ints to store the info
 	int w = 0, h = 0;
@@ -55,12 +55,12 @@ Entity::~Entity()
 
 }
 
-void Entity::SetVelocityX(const float& acceleration,  const double& interval) //set velocity with acceleration. pass in 1 for no change. // interval is deltatime
+void Entity::SetVelocityX(const float& acceleration,  const float& interval) //set velocity with acceleration. pass in 1 for no change. // interval is deltatime
 { 
 	mVelocityX = acceleration  *  interval; 
 }
 
-void Entity::SetVelocityY(const float& acceleration, const double& interval)
+void Entity::SetVelocityY(const float& acceleration, const float& interval)
 {
 	mVelocityY = acceleration *  interval;
 };
@@ -111,7 +111,7 @@ void Entity::OffsetPositionY(float velocity)
 
 
 //use our velocities that we've received from the update cycle to set a final position which we use as the position to render our destination rectangle (mRectFrame) at
-void Entity::SetMove(float interp)
+void Entity::SetMove()
 {	//really important! Since SD_Rects and pixels can both only increment by whole integers, we cast our float values as integers, and update x and y position of our destination rectangle with those
 
 	mRectFrame.y = static_cast<int>(mPositionY);

@@ -21,15 +21,15 @@ public:
 	
 
 	//set velocity of x, multiply it by our constant UPDATE_INTERVAL
-	 void SetVelocityX(const float& acceleration, const double& interval);
+	 void SetVelocityX(const float& acceleration, const float& interval);
 	
 	//set velocity and multiply it by our constant UPDATE_INTERVAL
-	 void SetVelocityY(const float& acceleration,  const double& interval);
+	 void SetVelocityY(const float& acceleration,  const float& interval);
 
 	 void HandleEvents(SDL_Event* event);
 	
 	//Used at the end of each update cycle so we know the final position of our entity, which should be used for rendering
-	 void SetMove(float dt);
+	 void SetMove();
 
 	 void OffsetVelocityX(float accel, const float& interval);
 

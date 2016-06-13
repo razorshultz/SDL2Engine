@@ -4,7 +4,7 @@
 Player::Player(std::string texfilename, SDL_Renderer* renderer, float x, float y) : Entity(texfilename, renderer, x, y), downpressed(false), uppressed(false), rightpressed(false), leftpressed(false)
 {
 	score = 0;
-	mAccelerationX = 0.005f;
+	mAccelerationX = 0.001f;
 }
 
 Player::Player(std::string texfilename, SDL_Renderer* renderer) : Entity(texfilename, renderer)
@@ -19,8 +19,11 @@ Player::~Player()
 {
 }
 
+int count = 0;
 void Player::Update(const float& UPDATE_INTERVAL)
-{	
+{
+	count++;
+	std::cout << count << std::endl;
 
 	float OldVel = GetVelocityX();
 	//SetVelocityX(this->GetVelocityX() + GetAccelerationX(), UPDATE_INTERVAL);
@@ -28,13 +31,13 @@ void Player::Update(const float& UPDATE_INTERVAL)
 
 
 	if(GetRightPressed())
-	{
-		OffsetVelocityX(this->GetAccelerationX(), UPDATE_INTERVAL);
+	{	//called lots
+		OffsetVelocityX(this->GetAccelerationX(), UPDATE_INTERVAL);	
 	}
 
 	if (GetLeftPressed())
 	{
-		OffsetVelocityX( -this->GetAccelerationX(), UPDATE_INTERVAL);
+		OffsetVelocityX(-this->GetAccelerationX(), UPDATE_INTERVAL);
 	}
 
 	if (GetDownPressed())
@@ -49,13 +52,13 @@ void Player::Update(const float& UPDATE_INTERVAL)
 
 
 	/* If the player goes over the max velocity, take away 1 to keep him at the limit*/
-	if (GetVelocityX() > 500.0f)
+	//if (GetVelocityX() > 0.5f)
 		//mPlayer.OffsetVelocityX(-1.0f, UPDATE_INTERVAL);
-		SetVelocityX(5.0f, UPDATE_INTERVAL);
+	//	SetVelocityX(0.5f, UPDATE_INTERVAL);
 
 
-	if (GetVelocityX() < -500.0f)
-		SetVelocityX(-5.0f, UPDATE_INTERVAL);
+	//if (GetVelocityX() < -0.5f)
+	//	SetVelocityX(-0.5f, UPDATE_INTERVAL);
 
 	if (GetVelocityY() > 20.5f)
 		OffsetVelocityY(-1.0f, UPDATE_INTERVAL);
@@ -111,11 +114,11 @@ void Player::Update(const float& UPDATE_INTERVAL)
 	/* Increment position based on velocity */
 	//OffsetPositionX(GetVelocityX() * UPDATE_INTERVAL);
 	//OffsetPositionX((OldVel + GetVelocityX()) * 0.5 * UPDATE_INTERVAL);
-	OffsetPositionX((OldVel + GetVelocityX()) * 0.5 * UPDATE_INTERVAL);
+	OffsetPositionX((OldVel + GetVelocityX()) * 0.5f * UPDATE_INTERVAL);
 	OffsetPositionY(GetVelocityY() * UPDATE_INTERVAL);
 
 	/* use position to render, finally! */
-	SetMove(UPDATE_INTERVAL);
+	SetMove();
 
 }
 

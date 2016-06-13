@@ -6,37 +6,27 @@
 #include <windows.h>
 
 
-double UPDATE_INTERVAL = 0;
-const int TICKS_PER_SECOND = 25;
-const int SKIP_TICKS = 1000 / TICKS_PER_SECOND;
-const int MAX_FRAMESKIP = 5;
-int loops;
-float interpolation;
+float UPDATE_INTERVAL = 0;
+
 
 float frameend = 0;
 float framestart = 0;
 bool ballSpeedZeroed = false;
 
-double MS_PER_UPDATE = 1000 / 60;
 
 
-
-Game::Game() : mWindow(1024, 720), mPlayer("paddle.jpg", mWindow.GetRenderer(), 500.0f, 500.0f), mPlayer2("paddle.jpg", mWindow.GetRenderer(), 900.0f, 150.0f),
+Game::Game() : mWindow(1280, 720), mPlayer("Scorpion.png", mWindow.GetRenderer(), 500.0f, 500.0f), mPlayer2("bg.png", mWindow.GetRenderer(), 0.0f, 0.0f),
 mBall("be.jpg", mWindow.GetRenderer(), 100, 100, 0.001, 0)
 {
 	mQuit = false;
-	EntityList.push_back(&mPlayer);
 	EntityList.push_back(&mPlayer2);
+	EntityList.push_back(&mPlayer);
 	EntityList.push_back(&mBall);
 }
-
 void Game::Run()
 {
-	
-
 	while (!mQuit)
 	{
-
 		if (UPDATE_INTERVAL < 1)
 		{
 			framestart = SDL_GetTicks();
@@ -51,9 +41,7 @@ void Game::Run()
 		Render();
 		frameend = SDL_GetTicks();
 		UPDATE_INTERVAL = frameend - framestart;
-
 	}
-
 }
 
 Game::~Game()
