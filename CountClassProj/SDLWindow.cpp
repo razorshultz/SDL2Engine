@@ -33,9 +33,9 @@ bool SDLWindow::Init()
 	}
 	else
 	{
-		if(!SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1")) //set texture filtering to linear
+		if(!SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "2")) //set texture filtering to anisotropic
 		{
-			std::cout << "Warning: Linear texture filtering not enabled!";
+			std::cout << "Warning: Anisotropic texture filtering not enabled!";
 		}
 
 		//create window
@@ -54,7 +54,7 @@ bool SDLWindow::Init()
 				std::cout << "Failed to initialise renderer!" << SDL_GetError();
 			}
 
-			int imgFlags = IMG_INIT_JPG; //from SDL_image.h
+			int imgFlags = IMG_INIT_PNG; //from SDL_image.h
 
 			if(!(IMG_Init(imgFlags) & imgFlags))
 			{

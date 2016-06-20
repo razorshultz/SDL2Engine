@@ -15,13 +15,14 @@ bool ballSpeedZeroed = false;
 
 
 
-Game::Game() : mWindow(1280, 720), mPlayer("Scorpion.png", mWindow.GetRenderer(), 500.0f, 500.0f), mPlayer2("bg.png", mWindow.GetRenderer(), 0.0f, 0.0f),
+Game::Game() : mWindow(1280, 720), mPlayer("birb.png", mWindow.GetRenderer(), 500.0f, 500.0f), mPlayer2("bg.png", mWindow.GetRenderer(), 0.0f, 0.0f),
 mBall("be.jpg", mWindow.GetRenderer(), 100, 100, 0.001, 0)
 {
 	mQuit = false;
 	EntityList.push_back(&mPlayer2);
 	EntityList.push_back(&mPlayer);
 	EntityList.push_back(&mBall);
+
 }
 void Game::Run()
 {
@@ -102,7 +103,9 @@ void Game::ProcessEvents()
 
 void Game::Update()
 {
+	UPDATE_INTERVAL /= 1000;
 	mPlayer.HandleEvents(&mEvent);
+	
 
 	for (auto it = EntityList.begin(); it < EntityList.end(); ++it)
 	{
