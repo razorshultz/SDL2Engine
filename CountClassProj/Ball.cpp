@@ -37,13 +37,13 @@ void Ball::Update(const float& interval)
 
 
 	if (GetVelocityX() > 20.5f)
-		OffsetVelocityX(-1.0f, interval);
+		SetVelocityX(20.5f);
 
 	if (GetVelocityX() < -20.5f)
-		OffsetVelocityX(1.0f, interval);
+		SetVelocityX(20.5f);
 
 
-	OffsetPositionX(GetVelocityX() * interval);
+	OffsetPositionX(GetVelocityX(), interval);
 
 	SetMove();
 }

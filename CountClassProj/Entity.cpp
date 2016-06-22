@@ -3,7 +3,7 @@
 
 
 
-Entity::Entity(std::string texfilename, SDL_Renderer* renderer) : mTexFilename(texfilename), mTexture(texfilename, renderer), Clickable(true), mPositionX(0), mPositionY(0), mVelocityX(0), mVelocityY(0), mAccelerationX(0.0f), mAccelerationY(0.0f), friction(0.1f)
+Entity::Entity(std::string texfilename, SDL_Renderer* renderer) : mTexFilename(texfilename), mTexture(texfilename, renderer), Clickable(true), mPositionX(0), mPositionY(0), mVelocityX(0), mVelocityY(0), mAccelerationX(0.0f), mAccelerationY(0.0f)
 {
 	mRectFrame.y = 0;
 	mRectFrame.x = 0;
@@ -17,7 +17,7 @@ Entity::Entity(std::string texfilename, SDL_Renderer* renderer) : mTexFilename(t
 	mRectFrame.h = h;
 }
 
-Entity::Entity(std::string texfilename, SDL_Renderer* renderer, float& x, float& y) : mTexFilename(texfilename), mTexture(texfilename, renderer), Clickable(false), mPositionX(x), mPositionY(y), mVelocityX(0), mVelocityY(0), mAccelerationX(0.0f), mAccelerationY(0.0f), friction(0.1f)
+Entity::Entity(std::string texfilename, SDL_Renderer* renderer, float& x, float& y) : mTexFilename(texfilename), mTexture(texfilename, renderer), Clickable(false), mPositionX(x), mPositionY(y), mVelocityX(0), mVelocityY(0), mAccelerationX(0.0f), mAccelerationY(0.0f)
 {
 	mRectFrame.x = static_cast<int>(x); 
 	mRectFrame.y = static_cast<int>(y);
@@ -31,7 +31,7 @@ Entity::Entity(std::string texfilename, SDL_Renderer* renderer, float& x, float&
 	mRectFrame.h = h ;
 }
 
-Entity::Entity(std::string texfilename, SDL_Renderer* renderer, float& x, float& y, float AccelerationX, float AccelerationY) : mTexFilename(texfilename), mTexture(texfilename, renderer), Clickable(false), mPositionX(x), mPositionY(y), mVelocityX(0), mVelocityY(0), mAccelerationX(AccelerationX), mAccelerationY(AccelerationY), friction(0.1f)
+Entity::Entity(std::string texfilename, SDL_Renderer* renderer, float& x, float& y, float AccelerationX, float AccelerationY) : mTexFilename(texfilename), mTexture(texfilename, renderer), Clickable(false), mPositionX(x), mPositionY(y), mVelocityX(0), mVelocityY(0), mAccelerationX(AccelerationX), mAccelerationY(AccelerationY)
 {
 	mRectFrame.x = static_cast<int>(x);
 	mRectFrame.y = static_cast<int>(y);
@@ -55,14 +55,14 @@ Entity::~Entity()
 
 }
 
-void Entity::SetVelocityX(const float& acceleration,  const float& interval) //set velocity with acceleration. pass in 1 for no change. // interval is deltatime
+void Entity::SetVelocityX(const float& acceleration) //set velocity with acceleration. pass in 1 for no change. // interval is deltatime
 { 
-	mVelocityX = acceleration  *  interval; 
+	mVelocityX = acceleration; 
 }
 
-void Entity::SetVelocityY(const float& acceleration, const float& interval)
+void Entity::SetVelocityY(const float& acceleration)
 {
-	mVelocityY = acceleration *  interval;
+	mVelocityY = acceleration;
 };
 
 void Entity::OffsetVelocityX(float accel, const float& interval)
@@ -99,14 +99,19 @@ void Entity::OffsetAccelerationY(float accel, const float& interval)
 	mAccelerationY += accel * interval;
 }
 
-void Entity::OffsetPositionX(float velocity )
-{
-	mPositionX += velocity;
+void Entity::OffsetPositionX(float velocity, const float& interval )
+{	//old method using euler integration
+	//mPositionX += velocity * interval;
+
+	//now we use verlet integration
+	mPositionX += interval * (velocity + interval * mAccelerationX / 2);
 }
 
-void Entity::OffsetPositionY(float velocity)
-{
-	mPositionY += velocity ;
+void Entity::OffsetPositionY(float velocity, const float& interval)
+{	//as above, this is old, we use euler integration here
+	//mPositionY += velocity ;
+
+	mPositionY += interval * (velocity + interval * mAccelerationY / 2);
 }
 
 

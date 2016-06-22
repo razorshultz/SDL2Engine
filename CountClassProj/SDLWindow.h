@@ -15,7 +15,7 @@ class SDLWindow
 	
 	inline int GetXSize() const { return mXSize; };
 	inline int GetYSize() const { return mYSize; };
-	SDL_Renderer* GetRenderer() const;
+	inline  SDL_Renderer* GetRenderer() const { return mRenderer; };
 
 	private:
 		SDL_Window* mWindow;

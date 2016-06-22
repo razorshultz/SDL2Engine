@@ -17,10 +17,7 @@ SDLWindow::~SDLWindow()
 	SDL_Quit();
 }
 
-SDL_Renderer* SDLWindow::GetRenderer() const
-{
-	return mRenderer;
-} 
+
 //comment
 bool SDLWindow::Init()
 {

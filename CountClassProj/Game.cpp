@@ -1,8 +1,7 @@
 #include "Game.h"
 #include "SDLWindow.h"
 #include <SDL.h>
-#include <cmath>
-#include <chrono>
+#include <memory>
 #include <windows.h>
 
 
@@ -15,13 +14,15 @@ bool ballSpeedZeroed = false;
 
 
 
-Game::Game() : mWindow(1280, 720), mPlayer("birb.png", mWindow.GetRenderer(), 500.0f, 500.0f), mPlayer2("bg.png", mWindow.GetRenderer(), 0.0f, 0.0f),
+Game::Game() : mWindow(1280, 720), mPlayer("scorpion.png", mWindow.GetRenderer(), 500.0f, 500.0f), mPlayer2("bg.png", mWindow.GetRenderer(), 0.0f, 0.0f),
 mBall("be.jpg", mWindow.GetRenderer(), 100, 100, 0.001, 0)
 {
 	mQuit = false;
 	EntityList.push_back(&mPlayer2);
 	EntityList.push_back(&mPlayer);
 	EntityList.push_back(&mBall);
+	//what to do here to make it all smart pointers?
+	
 
 }
 void Game::Run()
@@ -127,3 +128,7 @@ void Game::Render()
 }
 
 std::vector<Entity*> Game::EntityList;
+//std::vector<std::shared_ptr<Entity>> Game::EntityList;
+//using smart pointers
+
+

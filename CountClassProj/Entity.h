@@ -21,10 +21,11 @@ public:
 	
 
 	//set velocity of x, multiply it by our constant UPDATE_INTERVAL
-	 void SetVelocityX(const float& acceleration, const float& interval);
+	 void SetVelocityX(const float& acceleration);
 	
 	//set velocity and multiply it by our constant UPDATE_INTERVAL
-	 void SetVelocityY(const float& acceleration,  const float& interval);
+	 void SetVelocityY(const float& acceleration);
+
 
 	 void HandleEvents(SDL_Event* event);
 	
@@ -39,8 +40,8 @@ public:
 	 inline float GetPositionX() const { return mPositionX; };
 	 inline float GetPositionY() const { return mPositionY; };
 
-	 void OffsetPositionX(float velocity);
-	 void OffsetPositionY(float velocity);
+	 void OffsetPositionX(float velocity, const float& interval);
+	 void OffsetPositionY(float velocity, const float& interval);
 
 	 inline int GetTextureHeight() const { return mRectFrame.h; };
 	 inline int GetTextureWidth() const { return mRectFrame.w; };
@@ -68,13 +69,17 @@ protected:
 
 	std::string mTexFilename;
 	Texture mTexture;
-	float friction;
+	float mFriction;
 	float mAccelerationX =0;
 	float mAccelerationY =0;
 	float mVelocityY =0;
 	float mVelocityX = 0;
 	float mPositionX = 0;
 	float mPositionY = 0;
+
+	float mNaturalVelocityLimitX;
+	float mNaturalVelocityLimitY;
+
 
 private:
 	//these should probably be protected, to detect clicks of derived classes 
