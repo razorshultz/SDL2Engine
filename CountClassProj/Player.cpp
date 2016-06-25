@@ -2,11 +2,9 @@
 #include <iostream>
 #include <math.h>
 
-Player::Player(std::string texfilename, SDL_Renderer* renderer, float x, float y) : Entity(texfilename, renderer, x, y), downpressed(false), uppressed(false), rightpressed(false), leftpressed(false)
+Player::Player(std::string texfilename, SDL_Renderer* renderer, float x, float y) : Entity(texfilename, renderer, x, y, 7000.0f, 7000.0f, 5700.0f ),  downpressed(false), uppressed(false), rightpressed(false), leftpressed(false)
 {
-	mNaturalVelocityLimitX = 700.0f;
-	mNaturalVelocityLimitY = 700.0f;
-	mFriction = 1200.0f;
+
 }
 
 Player::Player(std::string texfilename, SDL_Renderer* renderer) : Entity(texfilename, renderer)
@@ -27,25 +25,25 @@ void Player::Update(const float& UPDATE_INTERVAL)
 
 	if(GetRightPressed())
 	{
-		mAccelerationX = 3000.0f;
+		mAccelerationX = 9000.0f;
 		OffsetVelocityX(this->GetAccelerationX(), UPDATE_INTERVAL);
 	}
 
 	if (GetLeftPressed())
 	{
-		mAccelerationX = 3000.0f;
+		mAccelerationX = 9000.0f;
 		OffsetVelocityX(-this->GetAccelerationX(), UPDATE_INTERVAL);
 	}
 
 	if (GetDownPressed())
 	{
-		mAccelerationY = 3000.0f;
+		mAccelerationY = 9000.0f;
 		OffsetVelocityY(this->GetAccelerationY(), UPDATE_INTERVAL);
 	}
 
 	if (GetUpPressed())
 	{
-		mAccelerationY = 3000.0f;
+		mAccelerationY = 9000.0f;
 		OffsetVelocityY(-this->GetAccelerationY(), UPDATE_INTERVAL);
 	}
 
@@ -79,7 +77,6 @@ void Player::Update(const float& UPDATE_INTERVAL)
 	/* Apply friction - if the player is travelling and the opposite movement control is not pressed, constantly lose speed
 	* until the the speed is its own distance (or more) from 0. In this case, the velocity instantly gets set to zero to brake it. */
 	
-	std::cout << mVelocityX << std::endl;
 		if (GetVelocityX() < 0)
 		{
 			OffsetVelocityX(mFriction, UPDATE_INTERVAL);

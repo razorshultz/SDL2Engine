@@ -32,7 +32,7 @@ Entity::Entity(std::string texfilename, SDL_Renderer* renderer, float& x, float&
 }
 
 Entity::Entity(std::string texfilename, SDL_Renderer* renderer, float& x, float& y, float AccelerationX, float AccelerationY) : mTexFilename(texfilename), mTexture(texfilename, renderer), Clickable(false), mPositionX(x), mPositionY(y), mVelocityX(0), mVelocityY(0), mAccelerationX(AccelerationX), mAccelerationY(AccelerationY)
-{
+{	
 	mRectFrame.x = static_cast<int>(x);
 	mRectFrame.y = static_cast<int>(y);
 
@@ -44,6 +44,23 @@ Entity::Entity(std::string texfilename, SDL_Renderer* renderer, float& x, float&
 	mRectFrame.w = w;
 	mRectFrame.h = h;
 }
+
+Entity::Entity(std::string texfilename, SDL_Renderer* renderer, float& x, float& y,  float naturalvelocitylimitx, float naturalvelocitylimity, float friction) : mTexFilename(texfilename), mTexture(texfilename, renderer), Clickable(false), mPositionX(x), mPositionY(y), mVelocityX(0), mVelocityY(0), mAccelerationX(0), mAccelerationY(0), mNaturalVelocityLimitX(naturalvelocitylimitx), mNaturalVelocityLimitY(naturalvelocitylimity), mFriction(friction)
+{
+	mRectFrame.x = static_cast<int>(x);
+	mRectFrame.y = static_cast<int>(y);
+
+	//use SDL_QueryTexture to look at the entity's Texture file, and use its actual size to set the collision frame up! we declare 2 ints to store the info
+	int w = 0, h = 0;
+	SDL_QueryTexture(mTexture.GetTexture(), nullptr, nullptr, &w, &h);
+
+	//use stored info from SDL_QueryTexture to set the collision frame
+	mRectFrame.w = w;
+	mRectFrame.h = h;
+
+
+}
+
 
 
 Entity::Entity()

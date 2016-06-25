@@ -13,6 +13,8 @@ public:
 	Entity(std::string texfilename, SDL_Renderer* renderer);
 	Entity(std::string texfilename, SDL_Renderer* renderer, float& x, float& y);
 	Entity(std::string texfilename, SDL_Renderer* renderer, float& x, float& y, float mAccelerationX, float mAccelerationY);
+	Entity(std::string texfilename, SDL_Renderer* renderer, float& x, float& y, float naturalvelocityx, float naturalvelocityy, float friction);
+
 	virtual ~Entity();
 
 	
