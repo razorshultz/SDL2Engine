@@ -25,7 +25,7 @@ mBall("be.jpg", mWindow.GetRenderer(), 100, 100, 0.001, 0)
 	
 
 }
-void Game::Run()
+void Game::Run() //this becomes main program loop, the rest of this class publically inherits and implements the methods from gamestate class. //dont want to make currentState global to check for exit condition tho
 {
 	while (!mQuit)
 	{
@@ -108,10 +108,16 @@ void Game::Update()
 	mPlayer.HandleEvents(&mEvent);
 	
 
-	for (auto it = EntityList.begin(); it < EntityList.end(); ++it)
+	/*for (auto it = EntityList.begin(); it < EntityList.end(); ++it)
 	{
 		(*it)->Update(UPDATE_INTERVAL);
-	}
+	}*/
+
+	for (const auto& elem : EntityList)
+	{
+		elem->Update(UPDATE_INTERVAL);
+	} 
+	//line above is c++11 version using range-based for loop
 	
 }
 
