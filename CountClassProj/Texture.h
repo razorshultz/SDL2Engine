@@ -11,6 +11,11 @@
 class Texture
 {
 public:
+
+
+	struct surface_deleter { void operator()(SDL_Surface* p) { if (p) SDL_FreeSurface(p); } };
+
+
 	Texture();
 	Texture(std::string& filename, SDL_Renderer* renderer);
 	SDL_Texture* GetTexture() const { return mTexture; };

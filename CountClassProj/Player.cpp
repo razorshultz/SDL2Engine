@@ -3,6 +3,8 @@
 #include <math.h>
 bool repeatable = false;
 int currentchan = 2;
+int myint2;
+int myint;
 Player::Player(std::string texfilename, SDL_Renderer* renderer, float x, float y) : Entity(texfilename, renderer, x, y, 7000.0f, 7000.0f, 5700.0f ),  downpressed(false), uppressed(false), rightpressed(false), leftpressed(false), mSound("defaultsound.wav"), mSound2("floop2.wav")
 {
 
@@ -22,8 +24,7 @@ Player::~Player()
 
 void Player::Update(const float& UPDATE_INTERVAL)
 {
-	
-	
+
 	if (GetClickedOn() == true && repeatable == false)
 	{
 		if (Mix_Playing(1) == 0) //if channel 1 isnt playing a sound
@@ -31,13 +32,20 @@ void Player::Update(const float& UPDATE_INTERVAL)
 			Mix_PlayChannel(1, mSound.mSound.get(), 0); //play sound on channel 1
 			repeatable = true;
 		}
+
+
+	myint = Mix_Playing(1);
+	std::cout << myint << std::endl;
+
+		if (GetClickedOn() == true && Mix_Playing(1) == 1 ) //add && repeatable to this if statement to stop second sound being spammed
+		{
+			Mix_PlayChannel(2, mSound2.mSound.get(), 0); //play sound on channel 2
+			repeatable = false;
+		}
+
 	}
 
-	if (GetClickedOn() == true && Mix_Playing(1) == 1 && repeatable == true)
-	{
-		Mix_PlayChannel(2, mSound2.mSound.get(), 0); //play sound on channel 2
-		//repeatable = false;
-	}
+	
 	 
 
 	
