@@ -86,8 +86,8 @@ protected:
 private:
 	//these should probably be protected, to detect clicks of derived classes 
 	SDL_Rect mRectFrame; 
-	bool ClickedOn;
-	bool ClickReleased;
+	bool ClickedOn = false;
+	bool ClickReleased = false;
 	bool Clickable = true;
 };
 

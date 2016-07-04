@@ -21,6 +21,7 @@
     <ClInclude Include="MenuButton.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="SDLWindow.h" />
+    <ClInclude Include="Sound.h" />
     <ClInclude Include="Texture.h" />
   </ItemGroup>
   <ItemGroup>
@@ -33,6 +34,7 @@
     <ClCompile Include="MenuButton.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="SDLWindow.cpp" />
+    <ClCompile Include="Sound.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Timer.cpp" />
   </ItemGroup>

@@ -3,6 +3,7 @@
 
 #include "Entity.h"
 #include <string>
+#include "Sound.h"
 
 class Player : public Entity
 {
@@ -20,6 +21,8 @@ public:
 	inline bool GetRightPressed() const { return rightpressed; };
 	inline void SetLeftPressed(bool press) { leftpressed = press; };
 	inline void SetRightPressed(bool press) { rightpressed = press; };
+	Sound mSound;
+	Sound mSound2;
 	
 
 

@@ -1,7 +1,7 @@
 #ifndef GAME_H
 #define GAME_H
 
-
+#include "Sound.h"
 #include "Player.h"
 #include <assert.h>
 #include "SDLWindow.h"
@@ -32,6 +32,7 @@ private:
 	//for smart pointers, i guess this should be std::shared_ptr<Player>
 	bool mQuit;
 	Ball mBall;
+	
 	
 
 

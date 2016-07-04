@@ -188,12 +188,18 @@ void Entity::HandleEvents(SDL_Event* events) //can take code out of here to put 
 				ClickReleased = false;
 
 			}
-			else if (events->type == SDL_MOUSEBUTTONUP)
+		/*	else if (events->type == SDL_MOUSEBUTTONUP)
 			{
 				ClickedOn = false;
 				ClickReleased = true;
-			}
+			}*/ //this code means it'll only count if we release the mouse whilst inside of the sprite
 		}
+
+		 if (events->type == SDL_MOUSEBUTTONUP)
+		{
+			ClickedOn = false;
+			ClickReleased = true;
+		} //here we can move the mouse outside of the button and release it, and it'll still work
 
 		//In the Entity object's constructor, Clickable is by default set to false. 
 		if (this->GetClickedOn() == true && this->GetClickable() == true)

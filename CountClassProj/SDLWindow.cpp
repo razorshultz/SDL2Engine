@@ -1,4 +1,5 @@
 #include "SDLWindow.h"
+#include <SDL_Mixer.h>
 
 
 
@@ -22,6 +23,20 @@ SDLWindow::~SDLWindow()
 bool SDLWindow::Init()
 {
 	bool success = true;
+
+	if (SDL_Init(SDL_INIT_AUDIO) < 0)
+	{
+		std::cout << "failed to initialise sdl audio: " << SDL_GetError();
+		return false;
+	}
+	
+	//initialise SDL_Mixer
+	if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
+	{
+		std::cout << "failed to initialise sdl_mixer: " << SDL_GetError();
+		return false;
+	}
+	
 
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 	{
@@ -58,13 +73,7 @@ bool SDLWindow::Init()
 				std::cout << "SDL_image could not initialise! error: " << IMG_GetError();
 				success = false;
 			}
-
-
-
 		}
-
-
-
 	}
 
 	return success;

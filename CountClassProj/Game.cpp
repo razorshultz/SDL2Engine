@@ -17,11 +17,13 @@ bool ballSpeedZeroed = false;
 Game::Game() : mWindow(1280, 720), mPlayer("scorpion.png", mWindow.GetRenderer(), 500.0f, 500.0f), mPlayer2("bg.png", mWindow.GetRenderer(), 0.0f, 0.0f),
 mBall("be.jpg", mWindow.GetRenderer(), 100, 100, 0.001, 0)
 {
+	
 	mQuit = false;
 	EntityList.push_back(&mPlayer2);
 	EntityList.push_back(&mPlayer);
 	EntityList.push_back(&mBall);
 	//what to do here to make it all smart pointers?
+	
 	
 
 }
