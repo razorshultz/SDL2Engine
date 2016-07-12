@@ -2,9 +2,6 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <iostream>
-#include "CountClass.h"
-#include "FunctionButton.h"
-#include "FunctionButtonDisplay.h"
 #include "SDLWindow.h"
 #include "Game.h"
 
