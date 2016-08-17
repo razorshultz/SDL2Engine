@@ -14,11 +14,14 @@ class Sound
 		struct chunk_deleter { void operator()(Mix_Chunk* p) { if (p) Mix_FreeChunk(p); } }; 
 		Sound();
 		Sound(std::string filename);
-		std::unique_ptr<Mix_Chunk, chunk_deleter> mSound;
+		bool CanPlayAgain() const { return mCanPlayAgain; };
+		auto GetChunk() { return mChunk.get(); };
+		
 
 
 	private:
-		//std::unique_ptr<Mix_Chunk> mSound;
+		std::unique_ptr<Mix_Chunk, chunk_deleter> mChunk;
+		bool mCanPlayAgain;
 
 };
 

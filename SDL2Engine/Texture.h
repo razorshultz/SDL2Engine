@@ -40,8 +40,8 @@ private:
 class DefaultTextureIsMissing : public std::exception
 {
 public:
-	DefaultTextureIsMissing() {};
-	virtual const char* what()
+	
+	 const char* what()
 	{
 		return "texture was missing - tried loading default texture, but default.jpg is missing";
 	};

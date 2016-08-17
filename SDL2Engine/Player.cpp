@@ -1,7 +1,7 @@
 #include "Player.h"
 #include <iostream>
 #include <math.h>
-bool repeatable = false;
+bool canplayagain = true;
 int currentchan = 2;
 int myint2;
 int myint;
@@ -25,22 +25,26 @@ Player::~Player()
 void Player::Update(const float& UPDATE_INTERVAL)
 {
 
-	if (GetClickedOn() == true && repeatable == false)
+	if (GetClickedOn())
 	{
-		if (Mix_Playing(1) == 0) //if channel 1 isnt playing a sound
+		if (!Mix_Playing(1) && canplayagain) //if channel 1 isnt playing a sound
 		{
-			Mix_PlayChannel(1, mSound.mSound.get(), 0); //play sound on channel 1
-			repeatable = true;
+			Mix_PlayChannel(1, mSound.GetChunk(), 0); //play sound on channel 1
+			canplayagain = false;
+		}
+		else
+		{
+			canplayagain = true;
 		}
 
 
 	myint = Mix_Playing(1);
 	std::cout << myint << std::endl;
 
-		if (GetClickedOn() == true && Mix_Playing(1) == 1 ) //add && repeatable to this if statement to stop second sound being spammed
+		if (!Mix_Playing(2)) //add && repeatable to this if statement to stop second sound being spammed
 		{
-			Mix_PlayChannel(2, mSound2.mSound.get(), 0); //play sound on channel 2
-			repeatable = false;
+			Mix_PlayChannel(2, mSound2.GetChunk(), 0); //play sound on channel 2
+			
 		}
 
 	}
